@@ -1,5 +1,5 @@
 /*
-    Copyright (c) 2007-2010 iMatix Corporation
+    Copyright (c) 2007-2011 iMatix Corporation
 
     This file is part of 0MQ.
 
@@ -54,7 +54,7 @@ extern "C" {
 /*  Version macros for compile-time API version detection                     */
 #define ZMQ_VERSION_MAJOR 2
 #define ZMQ_VERSION_MINOR 1
-#define ZMQ_VERSION_PATCH 1
+#define ZMQ_VERSION_PATCH 2
 
 #define ZMQ_MAKE_VERSION(major, minor, patch) \
     ((major) * 10000 + (minor) * 100 + (patch))
