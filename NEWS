@@ -10,6 +10,8 @@ Bug fixes
 * Windows build was broken due to EPROTONOSUPPORT not being defined. This
   has now been fixedi (Martin Sustrik).
 
+* Various fixes to make OpenVMS port work (Brett Cameron).
+
 
 0MQ version 2.1.2 (rc2), released on 2011/03/06
 ===============================================
