@@ -7,6 +7,9 @@ Bug fixes
 * Re-add PGM_TXW_MAX_RTE in order to have rate limiting on pgm transport
   over OpenPGM (Steve McCoy).
 
+* Windows build was broken due to EPROTONOSUPPORT not being defined. This
+  has now been fixedi (Martin Sustrik).
+
 
 0MQ version 2.1.2 (rc2), released on 2011/03/06
 ===============================================
