@@ -266,70 +266,23 @@ AC_C_VOLATILE
 #  PGM extension
 ac_zmq_pgm_ext="no"
 
-pgm_basename="libpgm-5.0.92~dfsg"
+pgm_basename="libpgm-5.1.113~dfsg"
 
 AC_SUBST(pgm_basename)
 
 AC_ARG_WITH([pgm], [AS_HELP_STRING([--with-pgm], 
     [build libzmq with PGM extension [default=no]])], 
-    [with_pgm_ext=yes], [with_pgm_ext=no])
+    [with_pgm_ext=$withval], [with_pgm_ext=no])
 
 if test "x$with_pgm_ext" != "xno"; then
 
-    if test "x$ac_cv_prog_cc_c99" = "xno"; then
-        AC_MSG_WARN([The C compiler is not set to C99 mode. The build will most likely fail])
-    fi
-    
-    AC_MSG_CHECKING([if the PGM extension is supported on this platform])
-    # OpenPGM is only supported by the vendor on x86, AMD64, and SPARC platforms...
-    case "${host_cpu}" in
-        i*86|x86_64|amd64|*sparc*|s390*)
-            # Supported
-        ;;
-        *)
-            AC_MSG_ERROR([the PGM extension is not supported on the ${host_cpu} platform.])
-        ;;
-    esac
-
-    # ... and on Linux/Windows/Solaris/FreeBSD/OSX systems.
-    case "${host_os}" in
-        *linux*|*mingw32*|*solaris*|*freebsd*|*darwin*)
-            AC_MSG_RESULT([yes])
-
-            AC_LANG_PUSH([C++])
-            AC_ZMQ_CHECK_LANG_FLAG([-Wno-variadic-macros], [LIBZMQ_EXTRA_CXXFLAGS="-Wno-variadic-macros $LIBZMQ_EXTRA_CXXFLAGS"])
-            AC_ZMQ_CHECK_LANG_FLAG([-Wno-long-long], [LIBZMQ_EXTRA_CXXFLAGS="-Wno-long-long $LIBZMQ_EXTRA_CXXFLAGS"])
-            AC_LANG_POP([C++])
-
-            AC_LANG_PUSH([C])
-            AC_ZMQ_LANG_STRICT([LIBZMQ_EXTRA_CFLAGS="$ac_zmq_cv_[]_AC_LANG_ABBREV[]_strict_flag $LIBZMQ_EXTRA_CFLAGS"])
-
-            if test "x$ac_zmq_cv_[]_AC_LANG_ABBREV[]_intel_compiler" = "xyes" -o \
-                    "x$ac_zmq_cv_[]_AC_LANG_ABBREV[]_sun_studio_compiler" = "xyes"; then
-                LIBZMQ_EXTRA_CFLAGS="-Dasm=__asm__ $LIBZMQ_EXTRA_CFLAGS"
-            fi
-            AC_LANG_POP([C])
-        ;;
-        *)
-            AC_MSG_ERROR([the PGM extension is not supported on system ${host_os}.])
-        ;;
-    esac
-
-    #  Gzip, Perl and Python are required during PGM build
-    AC_CHECK_PROG(ac_zmq_have_gzip, gzip, yes, no)
-    if test "x$ac_zmq_have_gzip" != "xyes"; then
-        AC_MSG_ERROR([gzip is required for building the PGM extension.])
-    fi
-    AC_CHECK_PROG(ac_zmq_have_perl, perl, yes, no)
-    if test "x$ac_zmq_have_perl" != "xyes"; then
-        AC_MSG_ERROR([perl is required for building the PGM extension.])
-    fi
-    AC_CHECK_PROG(ac_zmq_have_python, python, yes, no)
-    if test "x$ac_zmq_have_python" != "xyes"; then
-        AC_MSG_ERROR([python is required for building the PGM extension.])
+    # This allows placing the tar.gz to foreign/openpgm
+    # and using ./configure --with-pgm=libpgm-x.y.z
+    if test "x$with_pgm_ext" != "xyes"; then
+        pgm_basename="$with_pgm_ext"
     fi
 
-    #  Unpack libpgm
+    # Unpack libpgm
     AC_MSG_NOTICE([Unpacking ${pgm_basename}.tar.gz])
     ac_zmq_pwd=`pwd`
     cd foreign/openpgm
@@ -337,15 +290,30 @@ if test "x$with_pgm_ext" != "xno"; then
     if ! (gzip -dc "${pgm_basename}.tar.gz" || echo "failed") | ${am__untar}; then
         AC_MSG_ERROR([cannot unpack the foreign/openpgm/${pgm_basename}.tar.gz file])
     fi
+
+    # Create 'configure' script
+    cd ${pgm_basename}/openpgm/pgm/
+    autoreconf --install --force
+
     cd "${ac_zmq_pwd}"
+
+    if test -d foreign/openpgm/build-staging; then
+        rm -rf foreign/openpgm/build-staging
+    fi
+
+    mv foreign/openpgm/${pgm_basename} foreign/openpgm/build-staging
+    pgm_srcdir=foreign/openpgm/build-staging/openpgm/pgm
+
+    if ! test -d foreign/openpgm/build-staging/openpgm/pgm/config; then
+        mkdir foreign/openpgm/build-staging/openpgm/pgm/config
+    fi
+
+    AC_SUBST(pgm_srcdir)
+    AC_CONFIG_SUBDIRS([foreign/openpgm/build-staging/openpgm/pgm/])
 
     #  Success!
     AC_DEFINE(ZMQ_HAVE_OPENPGM, 1, [Have OpenPGM extension])
     ac_zmq_pgm_ext="yes"
-
-    # these break OpenPGM so don't specify them if we are building with it.
-    ac_zmq_pedantic="no"
-    ac_zmq_werror="no"
 fi
 
 # Set -Wall, -Werror and -pedantic
