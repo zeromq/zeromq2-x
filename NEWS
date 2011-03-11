@@ -26,6 +26,9 @@ Bug fixes
 
 * Various fixes to make OpenVMS port work (Brett Cameron).
 
+* Corrected Reference Manual to note that ZMQ_LINGER socket option may be
+  set at any time, not just before connecting/binding (Pieter Hintjens).
+
 Improvements
 ------------
 
