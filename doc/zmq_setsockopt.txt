@@ -12,7 +12,8 @@ SYNOPSIS
 --------
 *int zmq_setsockopt (void '*socket', int 'option_name', const void '*option_value', size_t 'option_len');*
 
-Caution: All options, with the exception of subscription strings, only take effect for subsequent socket bind/connects.
+Note: ZMQ_SUBSCRIBE and ZMQ_LINGER may be used at any time. All options take
+effect only for subsequent socket bind/connects.
 
 DESCRIPTION
 -----------
