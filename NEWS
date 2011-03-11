@@ -29,6 +29,8 @@ Bug fixes
 * Corrected Reference Manual to note that ZMQ_LINGER socket option may be
   set at any time, not just before connecting/binding (Pieter Hintjens).
 
+* Fix to C++ binding to properly close sockets (Guido Goldstein).
+
 Improvements
 ------------
 
