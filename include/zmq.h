@@ -246,7 +246,7 @@ typedef struct
 ZMQ_EXPORT int zmq_poll (zmq_pollitem_t *items, int nitems, long timeout);
 
 /******************************************************************************/
-/*  Devices - Experimental.                                                   */
+/*  Built-in devices                                                          */
 /******************************************************************************/
 
 #define ZMQ_STREAMER 1
