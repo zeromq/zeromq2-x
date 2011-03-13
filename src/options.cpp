@@ -32,7 +32,7 @@ zmq::options_t::options_t () :
     rate (40 * 1000),
     recovery_ivl (10),
     recovery_ivl_msec (-1),
-    use_multicast_loop (false),
+    use_multicast_loop (true),
     sndbuf (0),
     rcvbuf (0),
     type (-1),
