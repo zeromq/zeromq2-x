@@ -1,26 +1,6 @@
 0MQ version 2.1.3 (stable), released on 2011/03/xx
 ==================================================
 
-Changes
--------
-
-* ZMQ_DEALER and ZMQ_ROUTER macros provided to ease upgrade to 0MQ/3.0.
-  These are scheduled to replace ZMQ_XREQ and ZMQ_XREP.
-  
-OpenPGM Integration
--------------------
-
-* Upgraded OpenPGM to version 5.1.113 (Steven McCoy).
-
-* Build system now calls OpenPGM build process directly, allowing easier
-  future upgrades of OpenPGM (Mikko Koppanen).
-
-* Build system allows configuration with arbitrary versions of OpenPGM
-  (./configure --with-pgm=libpgm-x.y.z) (Mikko Koppanen).
-
-* OpenPGM uses new PGM_ODATA_MAX_RTE controlling original data instead of 
-  PGM_TXW_MAX_RTE covering entire channel (Steven McCoy).
-
 Bug fixes
 ---------
 
@@ -37,10 +17,30 @@ Bug fixes
 
 * Fix to C++ binding to properly close sockets (Guido Goldstein).
 
-Improvements
-------------
+Changes
+-------
 
 * OpenPGM default rate raised to 40mbps by default (Steven McCoy).
+
+* Added man page for zmq_device(3) which was hereto undocumented (Pieter 
+  Hintjens).
+
+* Removed zmq_queue(3), zmq_forwarder(3), zmq_streamer(3) man pages 
+  (Pieter Hintjens).
+
+OpenPGM Integration
+-------------------
+
+* Upgraded OpenPGM to version 5.1.113 (Steven McCoy).
+
+* Build system now calls OpenPGM build process directly, allowing easier
+  future upgrades of OpenPGM (Mikko Koppanen).
+
+* Build system allows configuration with arbitrary versions of OpenPGM
+  (./configure --with-pgm=libpgm-x.y.z) (Mikko Koppanen).
+
+* OpenPGM uses new PGM_ODATA_MAX_RTE controlling original data instead of 
+  PGM_TXW_MAX_RTE covering entire channel (Steven McCoy).
 
 
 0MQ version 2.1.2 (rc2), released on 2011/03/06
