@@ -47,6 +47,11 @@ OpenPGM Integration
 * OpenPGM uses new PGM_ODATA_MAX_RTE controlling original data instead of 
   PGM_TXW_MAX_RTE covering entire channel (Steven McCoy).
 
+Building
+--------
+
+* 0MQ builds properly on FreeBSD (Mikko Koppanen).
+
 
 0MQ version 2.1.2 (rc2), released on 2011/03/06
 ===============================================
