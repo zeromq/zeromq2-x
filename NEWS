@@ -17,6 +17,8 @@ Bug fixes
 
 * Fix to C++ binding to properly close sockets (Guido Goldstein).
 
+* Removed obsolete assert from pgm_socket.cpp (Martin Sustrik).
+
 Changes
 -------
 
