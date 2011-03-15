@@ -69,9 +69,9 @@ namespace zmq
             throw error_t ();
     }
 
-    inline void version (int &major_, int &minor_, int &patch_)
+    inline void version (int *major_, int *minor_, int *patch_)
     {
-        zmq_version (&major_, &minor_, &patch_);
+        zmq_version (major_, minor_, patch_);
     }
 
     class message_t : private zmq_msg_t
