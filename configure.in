@@ -266,7 +266,7 @@ AC_C_VOLATILE
 #  PGM extension
 ac_zmq_pgm_ext="no"
 
-pgm_basename="libpgm-5.1.113~dfsg"
+pgm_basename="libpgm-5.1.114~dfsg"
 
 AC_SUBST(pgm_basename)
 
