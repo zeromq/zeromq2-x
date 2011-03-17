@@ -291,10 +291,6 @@ if test "x$with_pgm_ext" != "xno"; then
         AC_MSG_ERROR([cannot unpack the foreign/openpgm/${pgm_basename}.tar.gz file])
     fi
 
-    # Create 'configure' script
-    cd ${pgm_basename}/openpgm/pgm/
-    autoreconf --install --force
-
     cd "${ac_zmq_pwd}"
 
     if test -d foreign/openpgm/build-staging; then
