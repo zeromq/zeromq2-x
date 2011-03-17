@@ -45,6 +45,11 @@ AM_PROG_CC_C_O
 AC_PROG_SED
 AC_PROG_AWK
 
+AC_ARG_VAR([XMLTO], [Path to xmlto command])
+AC_PATH_PROG([XMLTO], [xmlto])
+AC_ARG_VAR([ASCIIDOC], [Path to asciidoc command])
+AC_PATH_PROG([ASCIIDOC], [asciidoc])
+
 # Libtool configuration for different targets. See acinclude.m4
 AC_ZMQ_CONFIG_LIBTOOL
 AC_LIBTOOL_WIN32_DLL

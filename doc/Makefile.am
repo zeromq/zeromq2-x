@@ -30,17 +30,17 @@ if BUILD_DOC
 SUFFIXES=.html .txt .xml .1 .3 .7
 
 .txt.html:
-	$(AM_V_GEN)asciidoc -d manpage -b xhtml11 -f asciidoc.conf \
+	$(AM_V_GEN)$(ASCIIDOC) -d manpage -b xhtml11 -f asciidoc.conf \
 		-azmq_version=@PACKAGE_VERSION@ $<
 .txt.xml:
-	$(AM_V_GEN)asciidoc -d manpage -b docbook -f asciidoc.conf \
+	$(AM_V_GEN)$(ASCIIDOC) -d manpage -b docbook -f asciidoc.conf \
 		-azmq_version=@PACKAGE_VERSION@ $<
 .xml.1:
-	$(AM_V_GEN)xmlto man $<
+	$(AM_V_GEN)$(XMLTO) man $<
 .xml.3:
-	$(AM_V_GEN)xmlto man $<
+	$(AM_V_GEN)$(XMLTO) man $<
 .xml.7:
-	$(AM_V_GEN)xmlto man $<
+	$(AM_V_GEN)$(XMLTO) man $<
 zmq_epgm.7: zmq_pgm.7
 	$(AM_V_GEN)cp zmq_pgm.7 $@
 endif
