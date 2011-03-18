@@ -33,6 +33,9 @@
 #include "config.hpp"
 #include "err.hpp"
 
+#include "tcp_socket.hpp"
+#include "http_socket.hpp"
+
 zmq::zmq_engine_t::zmq_engine_t (fd_t fd_, const options_t &options_) :
     inpos (NULL),
     insize (0),
@@ -46,13 +49,28 @@ zmq::zmq_engine_t::zmq_engine_t (fd_t fd_, const options_t &options_) :
     plugged (false)
 {
     //  Initialise the underlying socket.
-    int rc = tcp_socket.open (fd_, options.sndbuf, options.rcvbuf);
+	switch (options_.proto) {
+		case options_t::PROTO_RAW:
+			tcp_socket = new (std::nothrow) tcp_socket_t();
+			break;
+		case options_t::PROTO_HTTP:
+			tcp_socket = new (std::nothrow) http_socket_t();
+            break;
+		default:
+			tcp_socket = NULL;
+			break;
+	}
+	
+	zmq_assert(tcp_socket);
+
+	int rc = tcp_socket->open (fd_, options.sndbuf, options.rcvbuf);
     zmq_assert (rc == 0);
 }
 
 zmq::zmq_engine_t::~zmq_engine_t ()
 {
     zmq_assert (!plugged);
+	delete tcp_socket;
 }
 
 void zmq::zmq_engine_t::plug (io_thread_t *io_thread_, i_inout *inout_)
@@ -70,7 +88,7 @@ void zmq::zmq_engine_t::plug (io_thread_t *io_thread_, i_inout *inout_)
 
     //  Connect to I/O threads poller object.
     io_object_t::plug (io_thread_);
-    handle = add_fd (tcp_socket.get_fd ());
+    handle = add_fd (tcp_socket->get_fd ());
     set_pollin (handle);
     set_pollout (handle);
 
@@ -111,7 +129,7 @@ void zmq::zmq_engine_t::in_event ()
 
         //  Retrieve the buffer and read as much data as possible.
         decoder.get_buffer (&inpos, &insize);
-        insize = tcp_socket.read (inpos, insize);
+        insize = tcp_socket->read (inpos, insize);
 
         //  Check whether the peer has closed the connection.
         if (insize == (size_t) -1) {
@@ -180,7 +198,7 @@ void zmq::zmq_engine_t::out_event ()
 
     //  If there are any data to write in write buffer, write as much as
     //  possible to the socket.
-    int nbytes = tcp_socket.write (outpos, outsize);
+    int nbytes = tcp_socket->write (outpos, outsize);
 
     //  Handle problems with the connection.
     if (nbytes == -1) {

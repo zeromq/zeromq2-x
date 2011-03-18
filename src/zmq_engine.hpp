@@ -27,7 +27,6 @@
 
 #include "i_engine.hpp"
 #include "io_object.hpp"
-#include "tcp_socket.hpp"
 #include "encoder.hpp"
 #include "decoder.hpp"
 #include "options.hpp"
@@ -58,7 +57,7 @@ namespace zmq
         //  Function to handle network disconnections.
         void error ();
 
-        tcp_socket_t tcp_socket;
+        class tcp_socket_t *tcp_socket;
         handle_t handle;
 
         unsigned char *inpos;

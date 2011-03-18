@@ -22,9 +22,11 @@ autom4te.cache
 tests/test_pair_inproc
 tests/test_pair_ipc
 tests/test_pair_tcp
+tests/test_pair_http
 tests/test_reqrep_inproc
 tests/test_reqrep_ipc
 tests/test_reqrep_tcp
+tests/test_reqrep_http
 tests/test_shutdown_stress
 tests/test_hwm
 src/platform.hpp*

@@ -1,4 +1,4 @@
-/*
+/* 
     Copyright (c) 2007-2011 iMatix Corporation
     Copyright (c) 2007-2011 Other contributors as noted in the AUTHORS file
 
@@ -21,6 +21,8 @@
 #include "tcp_socket.hpp"
 #include "platform.hpp"
 #include "err.hpp"
+
+#include "logger.hpp"
 
 #ifdef ZMQ_HAVE_WINDOWS
 
@@ -73,9 +75,11 @@ zmq::fd_t zmq::tcp_socket_t::get_fd ()
 
 int zmq::tcp_socket_t::write (const void *data, int size)
 {
-    int nbytes = send (s, (char*) data, size, 0);
+	int nbytes = send (s, (char*) data, size, 0);
 
-    //  If not a single byte can be written to the socket in non-blocking mode
+	LOGD() << "TCP bytes sent: " << nbytes << LOG_ENDL();
+    
+	//  If not a single byte can be written to the socket in non-blocking mode
     //  we'll get an error (this may happen during the speculative write).
     if (nbytes == SOCKET_ERROR && WSAGetLastError () == WSAEWOULDBLOCK)
         return 0;
@@ -98,6 +102,8 @@ int zmq::tcp_socket_t::write (const void *data, int size)
 int zmq::tcp_socket_t::read (void *data, int size)
 {
     int nbytes = recv (s, (char*) data, size, 0);
+
+	LOGD() << "TCP bytes received: " << nbytes << LOG_ENDL();
 
     //  If not a single byte can be read from the socket in non-blocking mode
     //  we'll get an error (this may happen during the speculative read).
@@ -184,7 +190,9 @@ int zmq::tcp_socket_t::write (const void *data, int size)
 {
     ssize_t nbytes = send (s, data, size, 0);
 
-    //  Several errors are OK. When speculative write is being done we may not
+	LOGD() << "TCP bytes sent: " << nbytes << LOG_ENDL();
+    
+	//  Several errors are OK. When speculative write is being done we may not
     //  be able to write a single byte to the socket. Also, SIGSTOP issued
     //  by a debugging tool can result in EINTR error.
     if (nbytes == -1 && (errno == EAGAIN || errno == EWOULDBLOCK ||
@@ -202,6 +210,8 @@ int zmq::tcp_socket_t::write (const void *data, int size)
 int zmq::tcp_socket_t::read (void *data, int size)
 {
     ssize_t nbytes = recv (s, data, size, 0);
+
+	LOGD() << "TCP bytes received: " << nbytes << LOG_ENDL();
 
     //  Several errors are OK. When speculative read is being done we may not
     //  be able to read a single byte to the socket. Also, SIGSTOP issued

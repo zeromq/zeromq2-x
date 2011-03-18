@@ -52,7 +52,9 @@ void zmq::connect_session_t::start_connecting (bool wait_)
     //  Create the connecter object.
 
     //  Both TCP and IPC transports are using the same infrastructure.
-    if (protocol == "tcp" || protocol == "ipc") {
+    if (protocol == "tcp" 
+		|| protocol == "http"
+		|| protocol == "ipc") {
 
         zmq_connecter_t *connecter = new (std::nothrow) zmq_connecter_t (
             io_thread, this, options, protocol.c_str (), address.c_str (),

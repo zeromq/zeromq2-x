@@ -30,6 +30,9 @@ namespace zmq
 
     struct options_t
     {
+
+		enum { PROTO_RAW, PROTO_HTTP };
+
         options_t ();
 
         int setsockopt (int option_, const void *optval_, size_t optvallen_);
@@ -56,6 +59,9 @@ namespace zmq
 
         //  Socket type.
         int type;
+
+		//  Protocol (PROTO_RAW, PROTO_HTTP)
+		int proto;
 
         //  Linger time, in milliseconds.
         int linger;

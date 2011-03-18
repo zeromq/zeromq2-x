@@ -65,6 +65,7 @@ libzmq_la_SOURCES = \
     tcp_connecter.hpp \
     tcp_listener.hpp \
     tcp_socket.hpp \
+	http_socket.hpp \
     thread.hpp \
     transient_session.hpp \
     trie.hpp \
@@ -124,6 +125,7 @@ libzmq_la_SOURCES = \
     tcp_connecter.cpp \
     tcp_listener.cpp \
     tcp_socket.cpp \
+	http_socket.cpp \
     thread.cpp \
     transient_session.cpp \
     trie.cpp \

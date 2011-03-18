@@ -32,8 +32,9 @@
 #define __PGM_WININT_H__
 #include <pgm/pgm.h>
 
-#ifdef ZMQ_HAVE_OSX
-#include <pgm/in.h>
+//  TODO: OpenPGM redefines bool -- remove this once OpenPGM is fixed.
+#if defined bool
+#undef bool
 #endif
 
 #include "options.hpp"

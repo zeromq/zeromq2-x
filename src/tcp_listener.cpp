@@ -168,7 +168,8 @@ zmq::tcp_listener_t::~tcp_listener_t ()
 int zmq::tcp_listener_t::set_address (const char *protocol_, const char *addr_,
     int backlog_)
 {
-    if (strcmp (protocol_, "tcp") == 0 ) {
+    if (strcmp (protocol_, "tcp") == 0 
+		|| strcmp (protocol_, "http") == 0) {
 
         //  Resolve the sockaddr to bind to.
         int rc = resolve_ip_interface (&addr, &addr_len, addr_);
@@ -201,20 +202,14 @@ int zmq::tcp_listener_t::set_address (const char *protocol_, const char *addr_,
         //  Bind the socket to the network interface and port.
         rc = bind (s, (struct sockaddr*) &addr, addr_len);
         if (rc != 0) {
-            int err = errno;
-            if (close () != 0)
-                return -1;
-            errno = err;
+            close ();
             return -1;
         }
 
         //  Listen for incomming connections.
         rc = listen (s, backlog_);
         if (rc != 0) {
-            int err = errno;
-            if (close () != 0)
-                return -1;
-            errno = err;
+            close ();
             return -1;
         }
 
@@ -247,10 +242,7 @@ int zmq::tcp_listener_t::set_address (const char *protocol_, const char *addr_,
         //  Bind the socket to the file path.
         rc = bind (s, (struct sockaddr*) &addr, addr_len);
         if (rc != 0) {
-            int err = errno;
-            if (close () != 0)
-                return -1;
-            errno = err;
+            close ();
             return -1;
         }
         has_file = true;
@@ -258,10 +250,7 @@ int zmq::tcp_listener_t::set_address (const char *protocol_, const char *addr_,
         //  Listen for incomming connections.
         rc = listen (s, backlog_);
         if (rc != 0) {
-            int err = errno;
-            if (close () != 0)
-                return -1;
-            errno = err;
+            close ();
             return -1;
         }
 

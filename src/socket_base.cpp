@@ -61,6 +61,8 @@
 #include "xpub.hpp"
 #include "xsub.hpp"
 
+#include "logger.hpp"
+
 zmq::socket_base_t *zmq::socket_base_t::create (int type_, class ctx_t *parent_,
     uint32_t tid_)
 {
@@ -165,8 +167,10 @@ int zmq::socket_base_t::parse_uri (const char *uri_,
 int zmq::socket_base_t::check_protocol (const std::string &protocol_)
 {
     //  First check out whether the protcol is something we are aware of.
-    if (protocol_ != "inproc" && protocol_ != "ipc" && protocol_ != "tcp" &&
-          protocol_ != "pgm" && protocol_ != "epgm" && protocol_ != "sys") {
+    if (protocol_ != "inproc" && protocol_ != "ipc" 
+		&& protocol_ != "tcp" && protocol_ != "http" 
+		&& protocol_ != "pgm" && protocol_ != "epgm" 
+		&& protocol_ != "sys") {
         errno = EPROTONOSUPPORT;
         return -1;
     }
@@ -302,12 +306,18 @@ int zmq::socket_base_t::bind (const char *addr_)
     if (rc != 0)
         return -1;
 
+	//  Setup socket protocol
+    options.proto = protocol == "http"
+        ? options_t::PROTO_HTTP : options_t::PROTO_RAW;
+
     if (protocol == "inproc" || protocol == "sys") {
         endpoint_t endpoint = {this, options};
         return register_endpoint (addr_, endpoint);
     }
 
-    if (protocol == "tcp" || protocol == "ipc") {
+    if (protocol == "tcp"
+		|| protocol == "http" 
+		|| protocol == "ipc") {
 
         //  Choose I/O thread to run the listerner in.
         io_thread_t *io_thread = choose_io_thread (options.affinity);
@@ -358,6 +368,10 @@ int zmq::socket_base_t::connect (const char *addr_)
     rc = check_protocol (protocol);
     if (rc != 0)
         return -1;
+
+	//  Setup socket protocol
+    options.proto = protocol == "http"
+        ? options_t::PROTO_HTTP : options_t::PROTO_RAW;	
 
     if (protocol == "inproc" || protocol == "sys") {
 
@@ -458,6 +472,9 @@ int zmq::socket_base_t::connect (const char *addr_)
 
 int zmq::socket_base_t::send (::zmq_msg_t *msg_, int flags_)
 {
+
+	LOGD() << "zmq::socket_base_t::send" << LOG_ENDL();
+
     if (unlikely (ctx_terminated)) {
         errno = ETERM;
         return -1;
@@ -496,6 +513,9 @@ int zmq::socket_base_t::send (::zmq_msg_t *msg_, int flags_)
 
 int zmq::socket_base_t::recv (::zmq_msg_t *msg_, int flags_)
 {
+
+	LOGD() << "zmq::socket_base_t::recv" << LOG_ENDL();
+
     if (unlikely (ctx_terminated)) {
         errno = ETERM;
         return -1;

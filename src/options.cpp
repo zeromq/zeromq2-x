@@ -36,6 +36,7 @@ zmq::options_t::options_t () :
     sndbuf (0),
     rcvbuf (0),
     type (-1),
+	proto(PROTO_RAW),
     linger (-1),
     reconnect_ivl (100),
     reconnect_ivl_max (0),

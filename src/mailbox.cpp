@@ -24,6 +24,8 @@
 #include "fd.hpp"
 #include "ip.hpp"
 
+#include "logger.hpp"
+
 #if defined ZMQ_HAVE_WINDOWS
 #include "windows.hpp"
 #else
@@ -156,6 +158,8 @@ zmq::mailbox_t::~mailbox_t ()
 
 void zmq::mailbox_t::send (const command_t &cmd_)
 {
+	//LOGD() << "zmq::mailbox_t::send" << LOG_ENDL();
+
     //  Attempt to write an entire command without blocking.
     ssize_t nbytes;
     do {
@@ -196,6 +200,9 @@ void zmq::mailbox_t::send (const command_t &cmd_)
 
 int zmq::mailbox_t::recv (command_t *cmd_, bool block_)
 {
+
+	//LOGD() << "zmq::mailbox_t::recv" << LOG_ENDL();
+
 #ifdef MSG_DONTWAIT
 
     //  Attempt to read an entire command. Returns EAGAIN if non-blocking

@@ -29,6 +29,8 @@
 #include "ip.hpp"
 #include "err.hpp"
 
+#include "logger.hpp"
+
 #ifdef ZMQ_HAVE_WINDOWS
 
 zmq::tcp_connecter_t::tcp_connecter_t () :
@@ -46,7 +48,8 @@ zmq::tcp_connecter_t::~tcp_connecter_t ()
 
 int zmq::tcp_connecter_t::set_address (const char *protocol_, const char *addr_)
 {
-    if (strcmp (protocol_, "tcp") == 0)
+    if (strcmp (protocol_, "tcp") == 0 
+		|| strcmp (protocol_, "http") == 0)
         return resolve_ip_hostname (&addr, &addr_len, addr_);
 
     errno = EPROTONOSUPPORT;
@@ -159,7 +162,8 @@ zmq::tcp_connecter_t::~tcp_connecter_t ()
 
 int zmq::tcp_connecter_t::set_address (const char *protocol_, const char *addr_)
 {
-    if (strcmp (protocol_, "tcp") == 0)
+    if (strcmp (protocol_, "tcp") == 0
+		|| strcmp (protocol_, "http") == 0)
         return resolve_ip_hostname (&addr, &addr_len, addr_);
     else if (strcmp (protocol_, "ipc") == 0)
         return resolve_local_path (&addr, &addr_len, addr_);
@@ -170,6 +174,8 @@ int zmq::tcp_connecter_t::set_address (const char *protocol_, const char *addr_)
 
 int zmq::tcp_connecter_t::open ()
 {
+	LOGD() << "TCP connection open" << LOG_ENDL();
+
     zmq_assert (s == retired_fd);
     struct sockaddr *sa = (struct sockaddr*) &addr;
 
