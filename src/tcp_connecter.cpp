@@ -174,7 +174,7 @@ int zmq::tcp_connecter_t::set_address (const char *protocol_, const char *addr_)
 
 int zmq::tcp_connecter_t::open ()
 {
-	LOGD() << "TCP connection open" << LOG_ENDL();
+	//LOGD() << "TCP connection open" << LOG_ENDL();
 
     zmq_assert (s == retired_fd);
     struct sockaddr *sa = (struct sockaddr*) &addr;

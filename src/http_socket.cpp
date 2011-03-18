@@ -50,7 +50,7 @@ int zmq::http_socket_t::write (const void *data, int size) {
 		write_buf = (char *)malloc(HTTP_BUF_SIZE);
 	}
 
-	LOGD() << "zmq::http_socket_t::write" << LOG_ENDL();
+	//LOGD() << "zmq::http_socket_t::write" << LOG_ENDL();
 
 	// Init header
 	if (!write_end) {
@@ -66,11 +66,10 @@ int zmq::http_socket_t::write (const void *data, int size) {
 		write_pos = write_buf;
 		write_end = write_buf + length;
 
-		// Logging out header
-		{
-            std::string header(write_buf, write_end);
-            LOGD() << header << LOG_ENDL();
-        }
+		//{	// Logging out header
+        //    std::string header(write_buf, write_end);
+        //    LOGD() << header << LOG_ENDL();
+        //}
 	}
 
 	// Sending HTTP header first
@@ -99,7 +98,7 @@ int zmq::http_socket_t::read (void *data, int size) {
 		read_pos = read_buf;
 	}
 
-	LOGD() << "zmq::http_socket_t::read" << LOG_ENDL();
+	//LOGD() << "zmq::http_socket_t::read" << LOG_ENDL();
 
 	int remains = HTTP_BUF_SIZE - (read_pos - read_buf);
 	int nbytes = tcp_socket_t::read(read_buf, remains);
@@ -116,11 +115,10 @@ int zmq::http_socket_t::read (void *data, int size) {
 		it = strstr(it, "\r\n\r\n\r\n");
 		if (!it) { return 0; }
 
-		// Logging out received header
-		{
-			std::string header(read_buf, it);
-			LOGD() << header << LOG_ENDL();
-		}
+		//{ // Logging out received header
+		//	std::string header(read_buf, it);
+		//	LOGD() << header << LOG_ENDL();
+		//}
 
 		it += 6; // skipping \r\n
 

@@ -473,7 +473,7 @@ int zmq::socket_base_t::connect (const char *addr_)
 int zmq::socket_base_t::send (::zmq_msg_t *msg_, int flags_)
 {
 
-	LOGD() << "zmq::socket_base_t::send" << LOG_ENDL();
+	//LOGD() << "zmq::socket_base_t::send" << LOG_ENDL();
 
     if (unlikely (ctx_terminated)) {
         errno = ETERM;
@@ -514,7 +514,7 @@ int zmq::socket_base_t::send (::zmq_msg_t *msg_, int flags_)
 int zmq::socket_base_t::recv (::zmq_msg_t *msg_, int flags_)
 {
 
-	LOGD() << "zmq::socket_base_t::recv" << LOG_ENDL();
+	//LOGD() << "zmq::socket_base_t::recv" << LOG_ENDL();
 
     if (unlikely (ctx_terminated)) {
         errno = ETERM;

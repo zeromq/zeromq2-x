@@ -77,7 +77,7 @@ int zmq::tcp_socket_t::write (const void *data, int size)
 {
 	int nbytes = send (s, (char*) data, size, 0);
 
-	LOGD() << "TCP bytes sent: " << nbytes << LOG_ENDL();
+	//LOGD() << "TCP bytes sent: " << nbytes << LOG_ENDL();
     
 	//  If not a single byte can be written to the socket in non-blocking mode
     //  we'll get an error (this may happen during the speculative write).
@@ -103,7 +103,7 @@ int zmq::tcp_socket_t::read (void *data, int size)
 {
     int nbytes = recv (s, (char*) data, size, 0);
 
-	LOGD() << "TCP bytes received: " << nbytes << LOG_ENDL();
+	//LOGD() << "TCP bytes received: " << nbytes << LOG_ENDL();
 
     //  If not a single byte can be read from the socket in non-blocking mode
     //  we'll get an error (this may happen during the speculative read).
@@ -190,7 +190,7 @@ int zmq::tcp_socket_t::write (const void *data, int size)
 {
     ssize_t nbytes = send (s, data, size, 0);
 
-	LOGD() << "TCP bytes sent: " << nbytes << LOG_ENDL();
+	//LOGD() << "TCP bytes sent: " << nbytes << LOG_ENDL();
     
 	//  Several errors are OK. When speculative write is being done we may not
     //  be able to write a single byte to the socket. Also, SIGSTOP issued
@@ -211,7 +211,7 @@ int zmq::tcp_socket_t::read (void *data, int size)
 {
     ssize_t nbytes = recv (s, data, size, 0);
 
-	LOGD() << "TCP bytes received: " << nbytes << LOG_ENDL();
+	//LOGD() << "TCP bytes received: " << nbytes << LOG_ENDL();
 
     //  Several errors are OK. When speculative read is being done we may not
     //  be able to read a single byte to the socket. Also, SIGSTOP issued
