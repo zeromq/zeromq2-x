@@ -28,6 +28,7 @@ tests/test_reqrep_ipc
 tests/test_reqrep_tcp
 tests/test_reqrep_http
 tests/test_shutdown_stress
+tests/test_transfer
 tests/test_hwm
 src/platform.hpp*
 src/stamp-h1

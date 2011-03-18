@@ -7,6 +7,7 @@ noinst_PROGRAMS = test_pair_inproc \
                   test_reqrep_inproc \
                   test_reqrep_tcp \
                   test_reqrep_http \
+                  test_transfer \
                   test_hwm
 
 if !ON_MINGW
@@ -23,6 +24,7 @@ test_reqrep_inproc_SOURCES = test_reqrep_inproc.cpp testutil.hpp
 test_reqrep_tcp_SOURCES = test_reqrep_tcp.cpp testutil.hpp
 test_reqrep_http_SOURCES = test_reqrep_http.cpp testutil.hpp
 
+test_transfer_SOURCES = test_transfer.cpp
 test_hwm_SOURCES = test_hwm.cpp
 
 if !ON_MINGW
