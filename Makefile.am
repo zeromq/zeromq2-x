@@ -1,7 +1,7 @@
 ACLOCAL_AMFLAGS = -I config
 
-SUBDIRS = $(pgm_srcdir) src doc perf devices tests
-DIST_SUBDIRS = src doc perf devices tests builds/msvc
+SUBDIRS = $(pgm_srcdir) src doc perf tests
+DIST_SUBDIRS = src doc perf tests builds/msvc
 
 EXTRA_DIST = \
 	autogen.sh	\

@@ -25,6 +25,10 @@ Bug fixes
 Changes
 -------
 
+* Removed stand-alone devices (/devices subdirectory) from distribution.
+  These undocumented programs remain available in older packages (Pieter
+  Hintjens).
+
 * OpenPGM default rate raised to 40mbps by default (Steven McCoy).
 
 * ZMQ_DEALER and ZMQ_ROUTER macros provided to ease upgrade to 0MQ/3.0.
