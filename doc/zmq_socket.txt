@@ -275,8 +275,9 @@ ZMQ_HWM option action:: N/A
 
 Exclusive pair pattern
 ~~~~~~~~~~~~~~~~~~~~~~
-The exclusive pair is an advanced pattern used for communicating exclusively
-between two peers.
+The exclusive pair pattern is used to connect a peer to precisely one other
+peer. This pattern is used for inter-thread communication across the inproc
+transport.
 
 
 ZMQ_PAIR
@@ -290,8 +291,10 @@ high water mark for the connected peer, or if no peer is connected, then
 any linkzmq:zmq_send[3] operations on the socket shall block until the peer
 becomes available for sending; messages are not discarded.
 
-NOTE: 'ZMQ_PAIR' sockets are experimental, and are currently missing several
-features such as auto-reconnection.
+NOTE: 'ZMQ_PAIR' sockets are designed for inter-thread communication across
+the linkzmq:zmq_inproc[7] transport and do not implement functionality such 
+as auto-reconnection. 'ZMQ_PAIR' sockets are considered experimental and may
+have other missing or broken aspects.
 
 [horizontal]
 .Summary of ZMQ_PAIR characteristics
@@ -327,6 +330,7 @@ linkzmq:zmq_bind[3]
 linkzmq:zmq_connect[3]
 linkzmq:zmq_send[3]
 linkzmq:zmq_recv[3]
+linkzmq:zmq_inproc[7]
 linkzmq:zmq[7]
 
 
