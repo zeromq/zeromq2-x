@@ -4,6 +4,9 @@
 Bug fixes
 ---------
 
+* Fix to PUB sockets, which would sometimes deliver tail frames of a 
+  multipart message to new subscribers (Martin Sustrik).
+
 * Re-add PGM_TXW_MAX_RTE in order to have rate limiting on pgm transport
   over OpenPGM (Steven McCoy).
 
