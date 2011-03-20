@@ -18,15 +18,16 @@ See the INSTALL file included with the distribution.
 Resources
 ---------
 
-Extensive documentation is provided with the distribution. Refer to
-doc/zmq.html, or "man zmq" after you have installed 0MQ on your system.
+A reference manual is provided with the distribution. Refer to "man zmq" 
+after you have installed 0MQ on your system, or see http://api.zeromq.org.
 
 Website: http://www.zeromq.org/
 
 Development mailing list: zeromq-dev@lists.zeromq.org
 Announcements mailing list: zeromq-announce@lists.zeromq.org
 
-Git repository: http://github.com/zeromq/zeromq2
+Git repository for this release: http://github.com/zeromq/zeromq2-1.
+Repository for current development: http://github.com/zeromq/zeromq2.
 
 0MQ developers can also be found on the IRC channel #zeromq, on the
 Freenode network (irc.freenode.net).
