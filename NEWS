@@ -4,6 +4,9 @@
 Bug fixes
 ---------
 
+* Fix to PUSH sockets, which would sometimes deliver tail frames of a
+  multipart message to new subscribers (Martin Sustrik).
+
 * Fix to PUB sockets, which would sometimes deliver tail frames of a 
   multipart message to new subscribers (Martin Sustrik).
 
@@ -11,7 +14,7 @@ Bug fixes
   over OpenPGM (Steven McCoy).
 
 * Windows build was broken due to EPROTONOSUPPORT not being defined. This
-  has now been fixedi (Martin Sustrik).
+  has now been fixed (Martin Sustrik).
 
 * Various fixes to make OpenVMS port work (Brett Cameron).
 
