@@ -34,15 +34,11 @@ Component: Multiplexing (zmq_poll)
 Maintainer: Martin Sustrik
 Contact: sustrik@250bpm.com
 
-Component: Devices
-Maintainer: Martin Sustrik
-Contact: sustrik@250bpm.com
-
 Component: Generic Infrastructure (context, mailbox, command, pipe)
 Maintainer: Martin Sustrik
 Contact: sustrik@250bpm.com
 
-Component: Documentation
+Component: Reference manual
 Maintainer: Martin Lucina
 Contact: mato@kotelna.sk
 
