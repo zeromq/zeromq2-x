@@ -1,6 +1,6 @@
 ACLOCAL_AMFLAGS = -I config
 
-SUBDIRS = $(pgm_srcdir) src doc perf tests
+SUBDIRS = foreign/openpgm src doc perf tests
 DIST_SUBDIRS = src doc perf tests builds/msvc
 
 EXTRA_DIST = \
