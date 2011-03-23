@@ -4,10 +4,15 @@
 Bug fixes
 ---------
 
+* Fix to OpenPGM which was asserting on small messages (Steven McCoy).
+
 Changes
 -------
 
+* Upgraded OpenPGM to version 5.1.115 (Pieter Hintjens).
+
 * OpenPGM build changed to not install OpenPGM artifacts.
+
 
 0MQ version 2.1.3 (Stable), released on 2011/03/21
 ==================================================
