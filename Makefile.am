@@ -1,7 +1,12 @@
 ACLOCAL_AMFLAGS = -I config
 
+if BUILD_PGM
 SUBDIRS = foreign/openpgm src doc perf tests
-DIST_SUBDIRS = src doc perf tests builds/msvc
+else
+SUBDIRS = src doc perf tests
+endif
+
+DIST_SUBDIRS = foreign/openpgm src doc perf tests builds/msvc
 
 EXTRA_DIST = \
 	autogen.sh	\

@@ -308,6 +308,9 @@ if test "x$with_pgm_ext" != "xno"; then
         mkdir foreign/openpgm/build-staging/openpgm/pgm/config
     fi
 
+    pgm_subdir=build-staging/openpgm/pgm
+    AC_SUBST(pgm_subdir)
+
     AC_SUBST(pgm_srcdir)
     AC_CONFIG_SUBDIRS([foreign/openpgm/build-staging/openpgm/pgm/])
 
