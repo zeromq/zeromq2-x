@@ -105,6 +105,9 @@ New functionality
 * If memory is exhausted, 0MQ warns with an explicit message before
   aborting the process.
 
+* Size of inproc HWM and SWAP is sum of peers' HWMs and SWAPs (Douglas
+  Greager, Martin Sustrik).
+    
 Bug fixes
 ---------
 
