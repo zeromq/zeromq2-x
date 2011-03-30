@@ -30,7 +30,7 @@ if BUILD_DOC
 SUFFIXES=.html .txt .xml .1 .3 .7
 
 .txt.html:
-    $(AM_V_GEN)$(ASCIIDOC) -d manpage -b xhtml11 -f asciidoc.conf \
+	$(AM_V_GEN)$(ASCIIDOC) -d manpage -b xhtml11 -f asciidoc.conf \
         -azmq_version=@PACKAGE_VERSION@ $<
 .txt.xml:
 	$(AM_V_GEN)$(ASCIIDOC) -d manpage -b docbook -f asciidoc.conf \
