@@ -59,6 +59,9 @@ LIBZMQ_CHECK_ENABLE_DEBUG
 # Check wheter to enable code coverage
 LIBZMQ_WITH_GCOV
 
+# Check wheter to enable code coverage
+AC_ZMQ_WITH_GCOV
+
 # Checks for libraries.
 AC_CHECK_LIB([pthread], [pthread_create])
 

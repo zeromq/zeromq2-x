@@ -318,12 +318,12 @@ AC_DEFUN([LIBZMQ_CHECK_ENABLE_DEBUG], [{
 }])
 
 dnl ##############################################################################
-dnl # LIBZMQ_WITH_GCOV([action-if-found], [action-if-not-found])                 #
+dnl # AC_ZMQ_WITH_GCOV([action-if-found], [action-if-not-found])                 #
 dnl # Check whether to build with code coverage                                  #
 dnl ##############################################################################
-AC_DEFUN([LIBZMQ_WITH_GCOV], [{
+AC_DEFUN([AC_ZMQ_WITH_GCOV], [{
     # Require compiler specifics
-    AC_REQUIRE([LIBZMQ_CHECK_COMPILERS])
+    AC_REQUIRE([AC_ZMQ_CHECK_COMPILERS])
 
     AC_ARG_WITH(gcov, [AS_HELP_STRING([--with-gcov=yes/no],
                       [With GCC Code Coverage reporting.])],
@@ -350,7 +350,7 @@ AC_DEFUN([LIBZMQ_WITH_GCOV], [{
 }])
 
 dnl ##############################################################################
-dnl # LIBZMQ_CHECK_WITH_FLAG([flags], [macro])                                   #
+dnl # AC_ZMQ_CHECK_WITH_FLAG([flags], [macro])                                   #
 dnl # Runs a normal autoconf check with compiler flags                           #
 dnl ##############################################################################
 AC_DEFUN([LIBZMQ_CHECK_WITH_FLAG], [{
