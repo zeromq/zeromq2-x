@@ -1,3 +1,21 @@
+0MQ version 2.1.5 (Stable), released on 2011/04/xx
+==================================================
+
+Bug fixes
+---------
+
+* Fixed memory leak with threads on Windows.
+
+Changes
+-------
+
+* Inproc performance tests now work on Windows.
+
+* PGM wire format specification improved in zmq_pgm(7)
+
+* Added thread latency/throughput performance examples.
+
+
 0MQ version 2.1.4 (Stable), released on 2011/03/30
 ==================================================
 
@@ -23,7 +41,7 @@ Bug fixes
 * Fix to PUSH sockets, which would sometimes deliver tail frames of a
   multipart message to new subscribers (Martin Sustrik).
 
-* Fix to PUB sockets, which would sometimes deliver tail frames of a 
+* Fix to PUB sockets, which would sometimes deliver tail frames of a
   multipart message to new subscribers (Martin Sustrik).
 
 * Windows build was broken due to EPROTONOSUPPORT not being defined. This
@@ -50,10 +68,10 @@ Changes
 * ZMQ_DEALER and ZMQ_ROUTER macros provided to ease upgrade to 0MQ/3.0.
   These are scheduled to replace ZMQ_XREQ and ZMQ_XREP (Pieter Hintjens).
 
-* Added man page for zmq_device(3) which was hereto undocumented (Pieter 
+* Added man page for zmq_device(3) which was hereto undocumented (Pieter
   Hintjens).
 
-* Removed zmq_queue(3), zmq_forwarder(3), zmq_streamer(3) man pages 
+* Removed zmq_queue(3), zmq_forwarder(3), zmq_streamer(3) man pages
   (Pieter Hintjens).
 
 OpenPGM Integration
@@ -67,7 +85,7 @@ OpenPGM Integration
 * Build system allows configuration with arbitrary versions of OpenPGM
   (./configure --with-pgm=libpgm-x.y.z) (Mikko Koppanen).
 
-* OpenPGM uses new PGM_ODATA_MAX_RTE controlling original data instead of 
+* OpenPGM uses new PGM_ODATA_MAX_RTE controlling original data instead of
   PGM_TXW_MAX_RTE covering entire channel (Steven McCoy).
 
 Building
@@ -107,7 +125,7 @@ New functionality
 
 * Size of inproc HWM and SWAP is sum of peers' HWMs and SWAPs (Douglas
   Greager, Martin Sustrik).
-    
+
 Bug fixes
 ---------
 
