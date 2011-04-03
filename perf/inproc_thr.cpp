@@ -71,9 +71,9 @@ static void *worker (void *ctx_)
         memset (zmq_msg_data (&msg), 0, message_size);
 #endif
 
-        rc = zmq_sendmsg (s, &msg, 0);
+        rc = zmq_send (s, &msg, 0);
         if (rc < 0) {
-            printf ("error in zmq_sendmsg: %s\n", zmq_strerror (errno));
+            printf ("error in zmq_send: %s\n", zmq_strerror (errno));
             exit (1);
         }
         rc = zmq_msg_close (&msg);
@@ -169,9 +169,9 @@ int main (int argc, char *argv [])
     printf ("message size: %d [B]\n", (int) message_size);
     printf ("message count: %d\n", (int) message_count);
 
-    rc = zmq_recvmsg (s, &msg, 0);
+    rc = zmq_recv (s, &msg, 0);
     if (rc < 0) {
-        printf ("error in zmq_recvmsg: %s\n", zmq_strerror (errno));
+        printf ("error in zmq_recv: %s\n", zmq_strerror (errno));
         return -1;
     }
     if (zmq_msg_size (&msg) != message_size) {
@@ -182,9 +182,9 @@ int main (int argc, char *argv [])
     watch = zmq_stopwatch_start ();
 
     for (i = 0; i != message_count - 1; i++) {
-        rc = zmq_recvmsg (s, &msg, 0);
+        rc = zmq_recv (s, &msg, 0);
         if (rc < 0) {
-            printf ("error in zmq_recvmsg: %s\n", zmq_strerror (errno));
+            printf ("error in zmq_recv: %s\n", zmq_strerror (errno));
             return -1;
         }
         if (zmq_msg_size (&msg) != message_size) {
