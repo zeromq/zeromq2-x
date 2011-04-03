@@ -15,6 +15,9 @@ Changes
 
 * Added thread latency/throughput performance examples.
 
+* Added "--with-system-pgm" configure option to use already installed
+  OpenPGM.
+
 
 0MQ version 2.1.4 (Stable), released on 2011/03/30
 ==================================================
