@@ -318,12 +318,12 @@ AC_DEFUN([LIBZMQ_CHECK_ENABLE_DEBUG], [{
 }])
 
 dnl ##############################################################################
-dnl # AC_ZMQ_WITH_GCOV([action-if-found], [action-if-not-found])                 #
+dnl # LIBZMQ_WITH_GCOV([action-if-found], [action-if-not-found])                 #
 dnl # Check whether to build with code coverage                                  #
 dnl ##############################################################################
-AC_DEFUN([AC_ZMQ_WITH_GCOV], [{
+AC_DEFUN([LIBZMQ_WITH_GCOV], [{
     # Require compiler specifics
-    AC_REQUIRE([AC_ZMQ_CHECK_COMPILERS])
+    AC_REQUIRE([LIBZMQ_CHECK_COMPILERS])
 
     AC_ARG_WITH(gcov, [AS_HELP_STRING([--with-gcov=yes/no],
                       [With GCC Code Coverage reporting.])],
