@@ -5,7 +5,7 @@ Summary:       The ZeroMQ messaging library
 Group:         Applications/Internet
 License:       LGPLv3+
 URL:           http://www.zeromq.org/
-Source:        http://www.zeromq.org/local--files/area:download/%{name}-%{version}.tar.gz
+Source:        http://download.zeromq.org/%{name}-%{version}.tar.gz
 Prefix:        %{_prefix}
 Buildroot:     %{_tmppath}/%{name}-%{version}-%{release}-root
 BuildRequires: gcc, make, gcc-c++, libstdc++-devel
