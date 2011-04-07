@@ -48,6 +48,7 @@ int zmq::tcp_socket_t::open (fd_t fd_, uint64_t sndbuf_, uint64_t rcvbuf_)
     }
 
     if (rcvbuf_) {
+        int sz = (int) rcvbuf_;
         int rc = setsockopt (s, SOL_SOCKET, SO_RCVBUF,
             (char*) &sz, sizeof (int));
         errno_assert (rc == 0);
