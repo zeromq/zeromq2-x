@@ -16,6 +16,9 @@ Bug fixes
 Changes
 -------
 
+* Runtime checking of socket and context validity, to catch e.g. using a
+  socket after closing it.
+
 * Test cases moved off port 5555, which conflicts with other services.
 
 * Clarified zmq_poll man page that the resolution of the timeout is 1msec.
