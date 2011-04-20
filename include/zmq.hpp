@@ -197,7 +197,7 @@ namespace zmq
         {
             return ptr;
         }
-        
+
     private:
 
         void *ptr;

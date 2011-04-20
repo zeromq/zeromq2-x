@@ -87,7 +87,7 @@ zmq::socket_base_t *zmq::socket_base_t::create (int type_, class ctx_t *parent_,
         break;
     case ZMQ_XREP:
         s = new (std::nothrow) xrep_t (parent_, tid_);
-        break;     
+        break;
     case ZMQ_PULL:
         s = new (std::nothrow) pull_t (parent_, tid_);
         break;
@@ -99,7 +99,7 @@ zmq::socket_base_t *zmq::socket_base_t::create (int type_, class ctx_t *parent_,
         break;
     case ZMQ_XSUB:
         s = new (std::nothrow) xsub_t (parent_, tid_);
-        break;    
+        break;
     default:
         errno = EINVAL;
         return NULL;
@@ -334,7 +334,7 @@ int zmq::socket_base_t::bind (const char *addr_)
 
         //  For convenience's sake, bind can be used interchageable with
         //  connect for PGM and EPGM transports.
-        return connect (addr_); 
+        return connect (addr_);
     }
 
     zmq_assert (false);
@@ -465,7 +465,7 @@ int zmq::socket_base_t::send (::zmq_msg_t *msg_, int flags_)
     }
 
     //  Check whether message passed to the function is valid.
-    if (unlikely ((msg_->flags | ZMQ_MSG_MASK) != ZMQ_MSG_MASK)) {
+    if (unlikely ((msg_->flags | ZMQ_MSG_MASK) != 0xff)) {
         errno = EFAULT;
         return -1;
     }
@@ -510,7 +510,7 @@ int zmq::socket_base_t::recv (::zmq_msg_t *msg_, int flags_)
     }
 
     //  Check whether message passed to the function is valid.
-    if (unlikely ((msg_->flags | ZMQ_MSG_MASK) != ZMQ_MSG_MASK)) {
+    if (unlikely ((msg_->flags | ZMQ_MSG_MASK) != 0xff)) {
         errno = EFAULT;
         return -1;
     }
@@ -636,7 +636,7 @@ zmq::session_t *zmq::socket_base_t::find_session (const blob_t &name_)
     session->inc_seqnum ();
 
     sessions_sync.unlock ();
-    return session;    
+    return session;
 }
 
 void zmq::socket_base_t::start_reaping (poller_t *poller_)
