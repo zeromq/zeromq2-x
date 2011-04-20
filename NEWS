@@ -1,4 +1,4 @@
-0MQ version 2.1.5 (Stable), released on 2011/04/xx
+0MQ version 2.1.5 (Stable), released on 2011/04/20
 ==================================================
 
 Bug fixes
@@ -8,6 +8,8 @@ Bug fixes
 
 Changes
 -------
+
+* Checks zmq_msg_t validity at each operation.
 
 * Inproc performance tests now work on Windows.
 
