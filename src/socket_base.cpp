@@ -465,7 +465,7 @@ int zmq::socket_base_t::send (::zmq_msg_t *msg_, int flags_)
     }
 
     //  Check whether message passed to the function is valid.
-    if (unlikely ((msg_->flags | ZMQ_MSG_MASK) != 0xff)) {
+    if (unlikely ((msg_->flags | ZMQ_MSG_MASK) != ZMQ_MSG_MASK)) {
         errno = EFAULT;
         return -1;
     }
@@ -510,7 +510,7 @@ int zmq::socket_base_t::recv (::zmq_msg_t *msg_, int flags_)
     }
 
     //  Check whether message passed to the function is valid.
-    if (unlikely ((msg_->flags | ZMQ_MSG_MASK) != 0xff)) {
+    if (unlikely ((msg_->flags | ZMQ_MSG_MASK) != ZMQ_MSG_MASK)) {
         errno = EFAULT;
         return -1;
     }
