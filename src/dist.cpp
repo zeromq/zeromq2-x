@@ -190,8 +190,10 @@ bool zmq::dist_t::has_out ()
 bool zmq::dist_t::write (class writer_t *pipe_, zmq_msg_t *msg_)
 {
     if (!pipe_->write (msg_)) {
+        pipes.swap (pipes.index (pipe_), active - 1);
         active--;
-        pipes.swap (pipes.index (pipe_), active);
+        pipes.swap (active, eligible - 1);
+        eligible--;
         return false;
     }
     if (!(msg_->flags & ZMQ_MSG_MORE))

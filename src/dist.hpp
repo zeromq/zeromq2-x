@@ -56,9 +56,6 @@ namespace zmq
         //  Put the message to all active pipes.
         void distribute (zmq_msg_t *msg_, int flags_);
 
-        //  Plug in all the delayed pipes.
-        void clear_new_pipes ();
-
         //  List of outbound pipes.
         typedef array_t <class writer_t> pipes_t;
         pipes_t pipes;
