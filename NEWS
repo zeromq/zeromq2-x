@@ -4,6 +4,8 @@
 Bug fixes
 ---------
 
+* Fixed message atomicity issue with PUB sockets (issue 191).
+
 * Properly handle WSAENETUNREACH on Windows (e.g. if client connects 
   before server binds).
 
