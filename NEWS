@@ -4,10 +4,17 @@
 Bug fixes
 ---------
 
+* Fixed issue 199 (affected ROUTER/XREP sockets).
+
 * Fixed message atomicity issue with PUB sockets (issue 191).
 
 * Properly handle WSAENETUNREACH on Windows (e.g. if client connects 
   before server binds).
+
+Changes
+-------
+
+* Test cases moved off port 5555, which conflicts with other services.
 
 
 0MQ version 2.1.6 (Stable), released on 2011/04/26
