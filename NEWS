@@ -18,6 +18,7 @@ Changes
 
 * Test cases moved off port 5555, which conflicts with other services.
 
+* Clarified zmq_poll man page that the resolution of the timeout is 1msec.
 
 0MQ version 2.1.6 (Stable), released on 2011/04/26
 ==================================================
