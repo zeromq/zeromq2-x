@@ -4,6 +4,8 @@
 Bug fixes
 ---------
 
+* Fixed issue 211 (REP socket crashed if sent malformed envelope).
+
 * Fixed issue 206 (affected all sockets).
 
 * Fixed issue 199 (affected ROUTER/XREP sockets).
