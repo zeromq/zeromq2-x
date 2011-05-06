@@ -63,7 +63,7 @@ void zmq::xrep_t::xattach_pipes (reader_t *inpipe_, writer_t *outpipe_,
 
         if (terminating) {
             register_term_acks (1);
-            outpipe_->terminate ();        
+            outpipe_->terminate ();
         }
     }
 
@@ -288,6 +288,16 @@ int zmq::xrep_t::xrecv (zmq_msg_t *msg_, int flags_)
     zmq_msg_init (msg_);
     errno = EAGAIN;
     return -1;
+}
+
+int zmq::xrep_t::rollback (void)
+{
+    if (current_out) {
+        current_out->rollback ();
+        current_out = NULL;
+        more_out = false;
+    }
+    return 0;
 }
 
 bool zmq::xrep_t::xhas_in ()
