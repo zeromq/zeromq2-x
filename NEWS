@@ -4,8 +4,11 @@
 Bug fixes
 ---------
 
-* Fixed issue 206 (affected all sockets, was introduced in 2.1.6 as part
-  of message validity checking).
+* Fixed issue 206, assertion failure in zmq.cpp:223, affected all sockets 
+  (bug was introduced in 2.1.6 as part of message validity checking).
+
+* Fixed issue 211, REP socket asserted if sent malformed envelope (old issue
+  due to abuse of assertions for error checking).
 
 * Fixed issue 199 (affected ROUTER/XREP sockets, an old issue).
 
@@ -57,6 +60,7 @@ Changes
 Note that this version contained a malformed patch and is not usable.
 It is not available for download, but is available in the git via the
 2.1.5 tag.
+
 
 0MQ version 2.1.4 (Stable), released on 2011/03/30
 ==================================================
