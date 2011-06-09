@@ -14,11 +14,14 @@ Changes
 Bug fixes
 ---------
 
+* Fixed issue 188, assert when closing socket that had unread multipart
+  data still on it (affected PULL, SUB, ROUTER, and DEALER sockets).
+
 * Fixed issue 191, message atomicity issue with PUB sockets (an old issue).
 
 * Fixed issue 199 (affected ROUTER/XREP sockets, an old issue).
 
-* Fixed issue 206, assertion failure in zmq.cpp:223, affected all sockets 
+* Fixed issue 206, assertion failure in zmq.cpp:223, affected all sockets
   (bug was introduced in 2.1.6 as part of message validity checking).
 
 * Fixed issue 211, REP socket asserted if sent malformed envelope (old issue
@@ -27,30 +30,10 @@ Bug fixes
 * Fixed issue 212, reconnect failing after resume from sleep on Windows
   (due to not handling WSAENETDOWN).
 
-* Properly handle WSAENETUNREACH on Windows (e.g. if client connects 
+* Properly handle WSAENETUNREACH on Windows (e.g. if client connects
   before server binds).
 
-Changes
--------
-
-* Runtime checking of socket and context validity, to catch e.g. using a
-  socket after closing it, or passing an invalid pointer to context/socket
-  methods.
-
-* Test cases moved off port 5555, which conflicts with other services.
-
-* Clarified zmq_poll man page that the resolution of the timeout is 1msec.
-
-
-0MQ version 2.1.6 (Stable), released on 2011/04/26
-==================================================
-
-Bug fixes
----------
-
 * Fixed memory leak with threads on Windows.
-
-* Assert during SUB socket termination fixed.
 
 Changes
 -------
@@ -66,6 +49,21 @@ Changes
 * Added "--with-system-pgm" configure option to use already installed
   OpenPGM.
 
+* Runtime checking of socket and context validity, to catch e.g. using a
+  socket after closing it, or passing an invalid pointer to context/socket
+  methods.
+
+* Test cases moved off port 5555, which conflicts with other services.
+
+* Clarified zmq_poll man page that the resolution of the timeout is 1msec.
+
+
+0MQ version 2.1.6 (Broken), released on 2011/04/26
+==================================================
+
+Note that this version contained a malformed patch and is not usable.
+It is not available for download, but is available in the git via the
+2.1.6 tag.
 
 0MQ version 2.1.5 (Broken), released on 2011/04/20
 ==================================================
