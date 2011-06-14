@@ -4,6 +4,10 @@
 Bug fixes
 ---------
 
+* Fixed issue 223, assertion failure in tcp_connecter.cpp:300 when 
+  connecting to a server that is on an unreachable network (errno is 
+  equal to ENETUNREACH).
+
 Changes
 -------
 
