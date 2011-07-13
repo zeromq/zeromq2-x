@@ -8,6 +8,8 @@ Bug fixes
   connecting to a server that is on an unreachable network (errno is 
   equal to ENETUNREACH).
 
+* Fixed issue 228, assertion failure at rep.cpp:88 when HWM was reached.
+
 Changes
 -------
 

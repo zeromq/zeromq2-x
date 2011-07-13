@@ -85,7 +85,7 @@ int zmq::rep_t::xrecv (zmq_msg_t *msg_, int flags_)
 
                 //  Push it to the reply pipe.
                 rc = xrep_t::xsend (msg_, flags_);
-                zmq_assert (rc == 0);
+                errno_assert (rc == 0);
             }
             else {
                 //  If the traceback stack is malformed, discard anything
