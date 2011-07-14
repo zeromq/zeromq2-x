@@ -10,11 +10,15 @@ Bug fixes
 
 * Fixed issue 228, assertion failure at rep.cpp:88 when HWM was reached.
 
+* Fixed issue 231, assertion failure at mailbox.cpp:183 when too many
+  pending socketpair operations were queued (major backport from 3.0).
+
 Changes
 -------
 
 * Removed Debian packaging, which is now available at packages.debian.org
   or via apt-get.
+
 
 0MQ version 2.1.7 (Stable), released on 2011/05/12
 ==================================================
