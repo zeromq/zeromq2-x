@@ -120,7 +120,7 @@ void zmq::signaler_t::send ()
 {
 #if defined ZMQ_HAVE_WINDOWS
     unsigned char dummy = 0;
-    int nbytes = ::send (w, &dummy, sizeof (dummy), 0);
+    int nbytes = ::send (w, (char*) &dummy, sizeof (dummy), 0);
     wsa_assert (nbytes != SOCKET_ERROR);
     zmq_assert (nbytes == sizeof (dummy));
 #else
@@ -161,13 +161,17 @@ int zmq::signaler_t::wait (int timeout_)
     FD_ZERO (&fds);
     FD_SET (r, &fds);
     struct timeval timeout;
-    timeout.tv_sec = timeout_ / 1000;
-    timeout.tv_usec = timeout_ % 1000 * 1000;
+    if (timeout_ >= 0) {
+        timeout.tv_sec = timeout_ / 1000;
+        timeout.tv_usec = timeout_ % 1000 * 1000;
+    }
 #ifdef ZMQ_HAVE_WINDOWS
-    int rc = select (0, &fds, NULL, NULL, &timeout);
+    int rc = select (0, &fds, NULL, NULL,
+        timeout_ >= 0 ? &timeout : NULL);
     wsa_assert (rc != SOCKET_ERROR);
 #else
-    int rc = select (r + 1, &fds, NULL, NULL, &timeout);
+    int rc = select (r + 1, &fds, NULL, NULL,
+        timeout_ >= 0 ? &timeout : NULL);
     if (unlikely (rc < 0)) {
         zmq_assert (errno == EINTR);
         return -1;
@@ -189,8 +193,8 @@ void zmq::signaler_t::recv ()
 {
     //  Attempt to read a signal.
     unsigned char dummy;
-#if ZMQ_HAVE_WINDOWS
-    int nbytes = ::recv (r, &dummy, sizeof (dummy), 0);
+#ifdef ZMQ_HAVE_WINDOWS
+    int nbytes = ::recv (r, (char*) &dummy, sizeof (dummy), 0);
     wsa_assert (nbytes != SOCKET_ERROR);
 #else
     ssize_t nbytes = ::recv (r, &dummy, sizeof (dummy), 0);
