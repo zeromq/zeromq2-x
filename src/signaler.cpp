@@ -193,7 +193,7 @@ void zmq::signaler_t::recv ()
 {
     //  Attempt to read a signal.
     unsigned char dummy;
-#if ZMQ_HAVE_WINDOWS
+#ifdef ZMQ_HAVE_WINDOWS
     int nbytes = ::recv (r, (char*) &dummy, sizeof (dummy), 0);
     wsa_assert (nbytes != SOCKET_ERROR);
 #else
