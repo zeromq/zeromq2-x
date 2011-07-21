@@ -13,6 +13,9 @@ Bug fixes
 * Fixed issue 231, assertion failure at mailbox.cpp:183 when too many
   pending socketpair operations were queued (major backport from 3.0).
 
+* Fixed issue 234, assertion failure at mailbox.cpp:77 when Ctrl-C was
+  used (only affected git master following backport for 231).
+
 * Fixed issue 230, SIGPIPE killing servers when client disconnected, hit
   OS/X only.
 
