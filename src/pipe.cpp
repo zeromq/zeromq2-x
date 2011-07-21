@@ -235,7 +235,8 @@ bool zmq::writer_t::write (zmq_msg_t *msg_)
 
     if (unlikely (swapping)) {
         bool stored = swap->store (msg_);
-        zmq_assert (stored);
+        if (!stored)
+            return false;
         if (!(msg_->flags & ZMQ_MSG_MORE))
             swap->commit ();
         return true;
