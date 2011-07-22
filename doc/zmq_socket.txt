@@ -131,7 +131,7 @@ _body parts_.
 
 [horizontal]
 .Summary of ZMQ_DEALER characteristics
-Compatible peer sockets:: 'ZMQ_ROUTER', 'ZMQ_REP'
+Compatible peer sockets:: 'ZMQ_ROUTER', 'ZMQ_REQ', 'ZMQ_REP'
 Direction:: Bidirectional
 Send/receive pattern:: Unrestricted
 Outgoing routing strategy:: Load-balanced
@@ -168,7 +168,7 @@ application must include the _delimiter_ part.
 
 [horizontal]
 .Summary of ZMQ_ROUTER characteristics
-Compatible peer sockets:: 'ZMQ_DEALER', 'ZMQ_REQ'
+Compatible peer sockets:: 'ZMQ_DEALER', 'ZMQ_REQ', 'ZMQ_REP'
 Direction:: Bidirectional
 Send/receive pattern:: Unrestricted
 Outgoing routing strategy:: See text
