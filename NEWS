@@ -19,12 +19,6 @@ Bug fixes
 * Fixed issue 230, SIGPIPE killing servers when client disconnected, hit
   OS/X only.
 
-Changes
--------
-
-* Removed Debian packaging, which is now available at packages.debian.org
-  or via apt-get.
-
 
 0MQ version 2.1.7 (Stable), released on 2011/05/12
 ==================================================
