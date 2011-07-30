@@ -1,3 +1,14 @@
+0MQ version 2.1.9 (Stable), released on 2011/07/xx
+==================================================
+
+Bug fixes
+---------
+
+* Fixed issue 236, zmq_send() and zmq_recv() did not always return
+  error conditions such as EFSM properly. This bug was introduced in
+  version 2.1.8 by the backport of changes for issue 231.
+
+
 0MQ version 2.1.8 (Stable), released on 2011/07/28
 ==================================================
 

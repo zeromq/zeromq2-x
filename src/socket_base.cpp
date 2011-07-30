@@ -492,6 +492,8 @@ int zmq::socket_base_t::send (::zmq_msg_t *msg_, int flags_)
     rc = xsend (msg_, flags_);
     if (rc == 0)
         return 0;
+    if (unlikely (errno != EAGAIN))
+        return -1;
 
     //  In case of non-blocking send we'll simply propagate
     //  the error - including EAGAIN - upwards.
@@ -541,6 +543,8 @@ int zmq::socket_base_t::recv (::zmq_msg_t *msg_, int flags_)
 
     //  Get the message.
     int rc = xrecv (msg_, flags_);
+    if (unlikely (rc != 0 && errno != EAGAIN))
+        return -1;
     int err = errno;
 
     //  Once every inbound_poll_rate messages check for signals and process
