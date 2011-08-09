@@ -3,8 +3,6 @@ include $(CLEAR_VARS)
 
 APP_PLATFORM = android-10
 
-LOCAL_PATH := $(call my-dir)
-build uuid
 include $(CLEAR_VARS)
 LOCAL_MODULE := uuid
 LOCAL_SRC_FILES := uuid/compare.c uuid/gen_uuid.c uuid/isnull.c \
@@ -12,8 +10,8 @@ LOCAL_SRC_FILES := uuid/compare.c uuid/gen_uuid.c uuid/isnull.c \
 		 uuid/pack.c uuid/unparse.c uuid/uuid_time.c
 include $(BUILD_STATIC_LIBRARY)
 
-
-LOCAL_MODULE := libzmq
+include $(CLEAR_VARS)
+LOCAL_MODULE := zmq
 LOCAL_C_INCLUDES := ../../include \
 		../../builds/android/include
 LOCAL_SRC_FILES := \

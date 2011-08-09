@@ -32,7 +32,12 @@ cp Application.mk $JNI_DIR
 
 pushd .
 cd $JNI_DIR
+echo "Current Working dir: `pwd`"
 $NDK_BUILD
 popd
+
+if [ -f ../../src/libs/armeabi/libzmq.so ]; then
+	ln -s ../../src/libs/armeabi/libzmq.so ./libzmq.so;
+fi
 
 exit 0;
