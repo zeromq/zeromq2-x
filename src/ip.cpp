@@ -54,7 +54,7 @@ static int resolve_nic_name (in_addr* addr_, char const *interface_)
     size_t ifr_size = sizeof (struct lifreq) * ifn.lifn_count;
     char *ifr = (char*) malloc (ifr_size);
     alloc_assert (ifr);
-    
+
     //  Retrieve interface names.
     lifconf ifc;
     ifc.lifc_family = AF_UNSPEC;
@@ -92,7 +92,7 @@ static int resolve_nic_name (in_addr* addr_, char const *interface_)
     return 0;
 }
 
-#elif defined ZMQ_HAVE_AIX || ZMQ_HAVE_HPUX
+#elif defined ZMQ_HAVE_AIX || ZMQ_HAVE_HPUX || __ANDROID__
 
 #include <sys/types.h>
 #include <unistd.h>
@@ -105,7 +105,7 @@ static int resolve_nic_name (in_addr* addr_, char const *interface_)
     int sd = socket (AF_INET, SOCK_DGRAM, 0);
     zmq_assert (sd != -1);
 
-    struct ifreq ifr; 
+    struct ifreq ifr;
 
     //  Copy interface name for ioctl get.
     strncpy (ifr.ifr_name, interface_, sizeof (ifr.ifr_name));
@@ -123,7 +123,7 @@ static int resolve_nic_name (in_addr* addr_, char const *interface_)
 
     struct sockaddr *sa = (struct sockaddr *) &ifr.ifr_addr;
     *addr_ = ((sockaddr_in*)sa)->sin_addr;
-    return 0;    
+    return 0;
 }
 
 #elif ((defined ZMQ_HAVE_LINUX || defined ZMQ_HAVE_FREEBSD ||\
@@ -140,14 +140,14 @@ static int resolve_nic_name (in_addr* addr_, char const *interface_)
     //  Get the addresses.
     ifaddrs* ifa = NULL;
     int rc = getifaddrs (&ifa);
-    zmq_assert (rc == 0);    
+    zmq_assert (rc == 0);
     zmq_assert (ifa != NULL);
 
     //  Find the corresponding network interface.
     bool found = false;
     for (ifaddrs *ifp = ifa; ifp != NULL ;ifp = ifp->ifa_next)
-        if (ifp->ifa_addr && ifp->ifa_addr->sa_family == AF_INET 
-            && !strcmp (interface_, ifp->ifa_name)) 
+        if (ifp->ifa_addr && ifp->ifa_addr->sa_family == AF_INET
+            && !strcmp (interface_, ifp->ifa_name))
         {
             *addr_ = ((sockaddr_in*) ifp->ifa_addr)->sin_addr;
             found = true;
@@ -294,7 +294,7 @@ int zmq::resolve_ip_hostname (sockaddr_storage *addr_, socklen_t *addr_len_,
     //  Need to choose one to avoid duplicate results from getaddrinfo() - this
     //  doesn't really matter, since it's not included in the addr-output.
     req.ai_socktype = SOCK_STREAM;
-    
+
     //  Avoid named services due to unclear socktype.
     req.ai_flags = AI_NUMERICSERV;
 
@@ -311,9 +311,9 @@ int zmq::resolve_ip_hostname (sockaddr_storage *addr_, socklen_t *addr_len_,
     zmq_assert ((size_t) (res->ai_addrlen) <= sizeof (*addr_));
     memcpy (addr_, res->ai_addr, res->ai_addrlen);
     *addr_len_ = res->ai_addrlen;
- 
+
     freeaddrinfo (res);
-    
+
     return 0;
 }
 
