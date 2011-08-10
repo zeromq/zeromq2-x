@@ -12,7 +12,7 @@ if [ -d $JNI_DIR ]; then
 fi
 
 if [ -d $SRC_DIR/obj ]; then
-    rm -rf $JNI_DIR/obj
+    rm -rf $SRC_DIR/obj
 fi
 
 if [ -d $SRC_DIR/libs ]; then

@@ -412,7 +412,8 @@ int zmq_poll (zmq_pollitem_t *items_, int nitems_, long timeout_)
         Sleep (timeout_ > 0 ? timeout_ / 1000 : INFINITE);
         return 0;
 #else
-        return usleep (timeout_);
+        usleep (timeout_);
+	return 0;
 #endif
     }
 
