@@ -1,4 +1,4 @@
-0MQ version 2.1.9 (Stable), released on 2011/07/xx
+0MQ version 2.1.9 (Stable), released on 2011/08/xx
 ==================================================
 
 Bug fixes
@@ -8,6 +8,11 @@ Bug fixes
   error conditions such as EFSM properly. This bug was introduced in
   version 2.1.8 by the backport of changes for issue 231.
 
+Building
+--------
+
+* 0MQ builds properly for Android (Bill Roberts).
+
 
 0MQ version 2.1.8 (Stable), released on 2011/07/28
 ==================================================
@@ -15,8 +20,8 @@ Bug fixes
 Bug fixes
 ---------
 
-* Fixed issue 223, assertion failure in tcp_connecter.cpp:300 when 
-  connecting to a server that is on an unreachable network (errno is 
+* Fixed issue 223, assertion failure in tcp_connecter.cpp:300 when
+  connecting to a server that is on an unreachable network (errno is
   equal to ENETUNREACH).
 
 * Fixed issue 228, assertion failure at rep.cpp:88 when HWM was reached.
