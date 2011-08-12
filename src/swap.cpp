@@ -135,8 +135,6 @@ bool zmq::swap_t::store (zmq_msg_t *msg_)
     copy_to_file (&msg_flags, sizeof msg_flags);
     copy_to_file (zmq_msg_data (msg_), msg_size);
 
-    zmq_msg_close (msg_);
-
     return true;
 }
 
