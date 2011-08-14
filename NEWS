@@ -4,7 +4,10 @@
 Bug fixes
 ---------
 
-* Fixed issue 239, Assertion failed: in zmq.cpp:223, when ZMQ_SWAP was
+* Fixed issue 238, assertion failure in zmq.cpp:655, when zmq_poll is
+  used on an empty set, on Windows.
+
+* Fixed issue 239, assertion failure in zmq.cpp:223, when ZMQ_SWAP was
   used with explicit identities and multiple SUB sockets.
 
 * Fixed issue 236, zmq_send() and zmq_recv() did not always return
