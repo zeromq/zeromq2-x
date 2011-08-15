@@ -65,7 +65,7 @@ extern "C"
         sigset_t signal_set;
         int rc = sigfillset (&signal_set);
         errno_assert (rc == 0);
-#   if !defined __ANDROID__
+#   if !defined ZMQ_HAVE_ANDROID
         rc = pthread_sigmask (SIG_BLOCK, &signal_set, NULL);
         posix_assert (rc);
 #   endif

@@ -91,6 +91,12 @@ case "${host_os}" in
         AC_CHECK_LIB(rt, sem_init)
         AC_CHECK_LIB(uuid, uuid_generate, , 
             [AC_MSG_ERROR([cannot link with -luuid, install uuid-dev.])])
+
+        case "${host_os}" in
+            *android*)
+                AC_DEFINE(ZMQ_HAVE_ANDROID, 1, [Have Android OS])
+            ;;
+        esac
         ;;
     *solaris*)
         # Define on Solaris to enable all library features

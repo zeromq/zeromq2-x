@@ -111,7 +111,7 @@ int zmq::swap_t::init ()
     if (fd == -1)
         return -1;
 
-#if (defined (ZMQ_HAVE_LINUX) && !defined (__ANDROID__))
+#if (defined (ZMQ_HAVE_LINUX) && !defined (ZMQ_HAVE_ANDROID))
     //  Enable more aggresive read-ahead optimization.
     posix_fadvise (fd, 0, filesize, POSIX_FADV_SEQUENTIAL);
 #endif
