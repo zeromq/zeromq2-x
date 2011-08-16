@@ -17,7 +17,7 @@ Bug fixes
 Building
 --------
 
-* 0MQ builds properly for Android (Bill Roberts).
+* 0MQ support for Android added (Bill Roberts, Mikko Koppanen).
 
 
 0MQ version 2.1.8 (Stable), released on 2011/07/28
