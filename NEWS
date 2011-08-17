@@ -4,6 +4,8 @@
 Bug fixes
 ---------
 
+* Fixed issue 240, assertion failure in pgm_socket.cpp:437.
+
 * Fixed issue 238, assertion failure in zmq.cpp:655, when zmq_poll is
   used on an empty set, on Windows.
 
