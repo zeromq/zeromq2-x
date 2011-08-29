@@ -22,8 +22,8 @@ Building
 * 0MQ support for Android added (Bill Roberts, Mikko Koppanen).
 
 
-0MQ version 2.1.8 (Stable), released on 2011/07/28
-==================================================
+0MQ version 2.1.8 (RC), released on 2011/07/28
+==============================================
 
 Bug fixes
 ---------
@@ -42,6 +42,9 @@ Bug fixes
 
 * Fixed issue 230, SIGPIPE killing servers when client disconnected, hit
   OS/X only.
+
+Note: this release was renamed "release candidate" due to issue 236,
+fixed in 2.1.9.
 
 
 0MQ version 2.1.7 (Stable), released on 2011/05/12
