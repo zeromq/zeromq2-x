@@ -364,7 +364,20 @@ int zmq::socket_base_t::connect (const char *addr_)
     if (rc != 0)
         return -1;
 
+    //  Checks that protocol is valid and supported on this system
     rc = check_protocol (protocol);
+    if (rc != 0)
+        return -1;
+
+    //  Parsed address for validation
+    sockaddr_storage addr;
+    socklen_t addr_len;
+
+    if (protocol == "tcp")
+        rc = resolve_ip_hostname (&addr, &addr_len, address.c_str ());
+    else
+    if (protocol == "ipc")
+        rc = resolve_local_path (&addr, &addr_len, address.c_str ());
     if (rc != 0)
         return -1;
 
