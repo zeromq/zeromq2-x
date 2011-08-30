@@ -1,3 +1,14 @@
+0MQ version 2.1.10 (Stable), released on 2011/09/xx
+===================================================
+
+Bug fixes
+---------
+
+* Fixed issue 207, assertion failure in zmq_connecter.cpp:48, when an
+  invalid zmq_connect() string was used, or the hostname could not be
+  resolved. The zmq_connect() call now returns -1 in both those cases.
+
+
 0MQ version 2.1.9 (Stable), released on 2011/08/29
 ==================================================
 
