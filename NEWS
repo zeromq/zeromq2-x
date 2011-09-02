@@ -4,6 +4,10 @@
 Bug fixes
 ---------
 
+* Fixed issue 140, SWAP failed with assertion failure in pipe.cpp:187
+  if the current directory was not writeable. Behavior now is to return
+  -1 at zmq_setsockopt in this situation.
+
 * Fixed issue 207, assertion failure in zmq_connecter.cpp:48, when an
   invalid zmq_connect() string was used, or the hostname could not be
   resolved. The zmq_connect() call now returns -1 in both those cases.
