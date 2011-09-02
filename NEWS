@@ -12,6 +12,9 @@ Bug fixes
   invalid zmq_connect() string was used, or the hostname could not be
   resolved. The zmq_connect() call now returns -1 in both those cases.
 
+* Fixed issue 218, sockets not opened with SOCK_CLOEXEC, causing fork/exec
+  to sit on sockets unnecessarily.
+
 
 0MQ version 2.1.9 (Stable), released on 2011/08/29
 ==================================================
