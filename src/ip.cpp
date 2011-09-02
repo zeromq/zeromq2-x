@@ -18,23 +18,32 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include "ip.hpp"
+#include "err.hpp"
+#include "platform.hpp"
 #include <stdlib.h>
 #include <string.h>
 #include <stdlib.h>
 #include <string>
 
-#include "../include/zmq.h"
+#if defined ZMQ_HAVE_WINDOWS
+#include "windows.hpp"
+#else
+#include <fcntl.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <netinet/tcp.h>
+#include <unistd.h>
+#endif
 
-#include "ip.hpp"
-#include "platform.hpp"
-#include "err.hpp"
-#include "stdint.hpp"
+#if defined ZMQ_HAVE_OPENVMS
+#include <ioctl.h>
+#endif
 
 #if defined ZMQ_HAVE_SOLARIS
-
 #include <sys/sockio.h>
 #include <net/if.h>
-#include <unistd.h>
 
 //  On Solaris platform, network interface name can be queried by ioctl.
 static int resolve_nic_name (in_addr* addr_, char const *interface_)
@@ -93,9 +102,6 @@ static int resolve_nic_name (in_addr* addr_, char const *interface_)
 }
 
 #elif defined ZMQ_HAVE_AIX || ZMQ_HAVE_HPUX || ZMQ_HAVE_ANDROID
-
-#include <sys/types.h>
-#include <unistd.h>
 #include <sys/ioctl.h>
 #include <net/if.h>
 
@@ -176,6 +182,29 @@ static int resolve_nic_name (in_addr* addr_, char const *interface_)
 }
 
 #endif
+
+int zmq::open_socket (int domain_, int type_, int protocol_)
+{
+    //  Setting this option result in sane behaviour when exec() functions
+    //  are used. Old sockets are closed and don't block TCP ports etc.
+#if defined SOCK_CLOEXEC
+    type_ |= SOCK_CLOEXEC;
+#endif
+
+    int s = socket (domain_, type_, protocol_);
+    if (s == -1)
+        return -1;
+
+    //  If there's no SOCK_CLOEXEC, let's try the second best option. Note that
+    //  race condition can cause socket not to be closed (if fork happens
+    //  between socket creation and this point).
+#if !defined SOCK_CLOEXEC && defined FD_CLOEXEC
+    int rc = fcntl (s, F_SETFD, FD_CLOEXEC);
+    errno_assert (rc != -1);
+#endif
+
+    return s;
+}
 
 int zmq::resolve_ip_interface (sockaddr_storage* addr_, socklen_t *addr_len_,
     char const *interface_)

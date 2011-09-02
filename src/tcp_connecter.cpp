@@ -58,7 +58,7 @@ int zmq::tcp_connecter_t::open ()
     zmq_assert (s == retired_fd);
 
     //  Create the socket.
-    s = socket (addr.ss_family, SOCK_STREAM, IPPROTO_TCP);
+    s = open_socket (addr.ss_family, SOCK_STREAM, IPPROTO_TCP);
     if (s == INVALID_SOCKET) {
         wsa_error_to_errno ();
         return -1;
@@ -177,7 +177,7 @@ int zmq::tcp_connecter_t::open ()
     if (AF_UNIX != sa->sa_family) {
 
         //  Create the socket.
-        s = socket (sa->sa_family, SOCK_STREAM, IPPROTO_TCP);
+        s = open_socket (sa->sa_family, SOCK_STREAM, IPPROTO_TCP);
         if (s == -1)
             return -1;
 
@@ -233,7 +233,7 @@ int zmq::tcp_connecter_t::open ()
 
         //  Create the socket.
         zmq_assert (AF_UNIX == sa->sa_family);
-        s = socket (AF_UNIX, SOCK_STREAM, 0);
+        s = open_socket (AF_UNIX, SOCK_STREAM, 0);
         if (s == -1)
             return -1;
 

@@ -176,7 +176,7 @@ int zmq::tcp_listener_t::set_address (const char *protocol_, const char *addr_,
             return -1;
 
         //  Create a listening socket.
-        s = socket (addr.ss_family, SOCK_STREAM, IPPROTO_TCP);
+        s = open_socket (addr.ss_family, SOCK_STREAM, IPPROTO_TCP);
         if (s == -1)
             return -1;
 
