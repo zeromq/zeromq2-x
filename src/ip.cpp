@@ -21,6 +21,7 @@
 #include "ip.hpp"
 #include "err.hpp"
 #include "platform.hpp"
+#include "stdint.hpp"
 #include <stdlib.h>
 #include <string.h>
 #include <stdlib.h>
