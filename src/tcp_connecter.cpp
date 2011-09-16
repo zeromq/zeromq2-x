@@ -50,7 +50,7 @@ int zmq::tcp_connecter_t::set_address (const char *protocol_, const char *addr_)
         return resolve_ip_hostname (&addr, &addr_len, addr_);
 
     errno = EPROTONOSUPPORT;
-    return -1;    
+    return -1;
 }
 
 int zmq::tcp_connecter_t::open ()
@@ -88,7 +88,7 @@ int zmq::tcp_connecter_t::open ()
         errno = EAGAIN;
         return -1;
     }
-    
+
     wsa_error_to_errno ();
     return -1;
 }
@@ -162,7 +162,8 @@ int zmq::tcp_connecter_t::set_address (const char *protocol_, const char *addr_)
 {
     if (strcmp (protocol_, "tcp") == 0)
         return resolve_ip_hostname (&addr, &addr_len, addr_);
-    else if (strcmp (protocol_, "ipc") == 0)
+    else
+    if (strcmp (protocol_, "ipc") == 0)
         return resolve_local_path (&addr, &addr_len, addr_);
 
     errno = EPROTONOSUPPORT;
@@ -239,7 +240,7 @@ int zmq::tcp_connecter_t::open ()
 
         //  Set the non-blocking flag.
         int flag = fcntl (s, F_GETFL, 0);
-        if (flag == -1) 
+        if (flag == -1)
             flag = 0;
         int rc = fcntl (s, F_SETFL, flag | O_NONBLOCK);
         errno_assert (rc != -1);
