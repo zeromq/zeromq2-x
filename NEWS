@@ -15,10 +15,11 @@ Bug fixes
 * Fixed issue 218, sockets not opened with SOCK_CLOEXEC, causing fork/exec
   to sit on sockets unnecessarily.
 
-* Fixed issue 250, build errors on Windows (Mikko Koppanen).
+* Fixed issue 250, build errors on Windows.
 
-* Fixed issue 252, assertion failure in req.cpp:87 and req.cpp:88 (Mikko
-  Koppanen).
+* Fixed issue 252, assertion failure in req.cpp:87 and req.cpp:88.
+
+* Fixed issue 261, assertion failure in kqueue.cpp:76 on OS/X.
 
 
 0MQ version 2.1.9 (Stable), released on 2011/08/29
