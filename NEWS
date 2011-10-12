@@ -4,6 +4,8 @@
 Bug fixes
 ---------
 
+* Fixed issue 269, faulty diagnostic code in 2.1.10.
+
 Changes
 -------
 
