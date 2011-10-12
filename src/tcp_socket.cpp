@@ -79,7 +79,7 @@ int zmq::tcp_socket_t::write (const void *data, int size)
     //  we'll get an error (this may happen during the speculative write).
     if (nbytes == SOCKET_ERROR && WSAGetLastError () == WSAEWOULDBLOCK)
         return 0;
-
+		
     //  Signalise peer failure.
     if (nbytes == -1 && (
           WSAGetLastError () == WSAENETDOWN ||
@@ -119,7 +119,7 @@ int zmq::tcp_socket_t::read (void *data, int size)
 
     //  Orderly shutdown by the other peer.
     if (nbytes == 0)
-        return -1;
+        return -1; 
 
     return (size_t) nbytes;
 }
@@ -200,9 +200,6 @@ int zmq::tcp_socket_t::write (const void *data, int size)
     if (nbytes == -1 && (errno == ECONNRESET || errno == EPIPE))
         return -1;
 
-    if (nbytes == 1)
-        fprintf (stderr, "E: unhandled error on send: %d/%s\n",
-                 errno, strerror (errno));
     errno_assert (nbytes != -1);
     return (size_t) nbytes;
 }
@@ -223,9 +220,6 @@ int zmq::tcp_socket_t::read (void *data, int size)
           errno == ETIMEDOUT || errno == EHOSTUNREACH))
         return -1;
 
-    if (nbytes == 1)
-        fprintf (stderr, "E: unhandled error on recv: %d/%s\n",
-                 errno, strerror (errno));
     errno_assert (nbytes != -1);
 
     //  Orderly shutdown by the other peer.
