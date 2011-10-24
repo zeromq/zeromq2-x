@@ -212,6 +212,9 @@ int zmq::xrep_t::xsend (zmq_msg_t *msg_, int flags_)
         if (!more_out) {
             current_out->flush ();
             current_out = NULL;
+			
+			int rc = zmq_msg_close (msg_);
+			zmq_assert (rc == 0);
         }
     }
     else {
