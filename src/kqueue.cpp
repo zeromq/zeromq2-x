@@ -73,9 +73,7 @@ void zmq::kqueue_t::kevent_delete (fd_t fd_, short filter_)
 
     EV_SET (&ev, fd_, filter_, EV_DELETE, 0, 0, 0);
     int rc = kevent (kqueue_fd, &ev, 1, NULL, 0, NULL);
-
-    if (rc == -1 && errno != ENOENT)
-        errno_assert (false);
+    errno_assert (rc != -1);
 }
 
 zmq::kqueue_t::handle_t zmq::kqueue_t::add_fd (fd_t fd_,
