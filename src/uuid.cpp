@@ -125,13 +125,25 @@ const char *zmq::uuid_t::to_string ()
 
 #include <stdio.h>
 #include <string.h>
+#if defined ZMQ_HAVE_HPUX && defined HAVE_LIBDCEKT
+#include <dce/uuid.h>
+#else
 #include <openssl/rand.h>
+#endif
 
 zmq::uuid_t::uuid_t ()
 {
     unsigned char rand_buf [16];
+#if defined ZMQ_HAVE_HPUX && defined HAVE_LIBDCEKT
+    ::uuid_t uuid;
+    unsigned32 ret;
+    uuid_create(&uuid, &ret);
+    zmq_assert (ret == uuid_s_ok);
+    memcpy(rand_buf, &uuid, sizeof(uuid));
+#else
     int ret = RAND_bytes (rand_buf, sizeof rand_buf);
     zmq_assert (ret == 1);
+#endif
 
     //  Read in UUID fields.
     memcpy (&time_low, rand_buf, sizeof time_low);
