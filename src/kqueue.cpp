@@ -35,6 +35,7 @@
 #include "err.hpp"
 #include "config.hpp"
 #include "i_poll_events.hpp"
+#include "likely.hpp"
 
 //  NetBSD defines (struct kevent).udata as intptr_t, everyone else
 //  as void *.
@@ -73,9 +74,7 @@ void zmq::kqueue_t::kevent_delete (fd_t fd_, short filter_)
 
     EV_SET (&ev, fd_, filter_, EV_DELETE, 0, 0, 0);
     int rc = kevent (kqueue_fd, &ev, 1, NULL, 0, NULL);
-
-    if (rc == -1 && errno != ENOENT)
-        errno_assert (false);
+    errno_assert (rc != -1);
 }
 
 zmq::kqueue_t::handle_t zmq::kqueue_t::add_fd (fd_t fd_,
@@ -110,29 +109,37 @@ void zmq::kqueue_t::rm_fd (handle_t handle_)
 void zmq::kqueue_t::set_pollin (handle_t handle_)
 {
     poll_entry_t *pe = (poll_entry_t*) handle_;
-    pe->flag_pollin = true;
-    kevent_add (pe->fd, EVFILT_READ, pe);
+    if (likely (!pe->flag_pollin)) {
+        pe->flag_pollin = true;
+        kevent_add (pe->fd, EVFILT_READ, pe);
+    }
 }
 
 void zmq::kqueue_t::reset_pollin (handle_t handle_)
 {
     poll_entry_t *pe = (poll_entry_t*) handle_;
-    pe->flag_pollin = false;
-    kevent_delete (pe->fd, EVFILT_READ);
+    if (likely (pe->flag_pollin)) {
+        pe->flag_pollin = false;
+        kevent_delete (pe->fd, EVFILT_READ);
+    }
 }
 
 void zmq::kqueue_t::set_pollout (handle_t handle_)
 {
     poll_entry_t *pe = (poll_entry_t*) handle_;
-    pe->flag_pollout = true;
-    kevent_add (pe->fd, EVFILT_WRITE, pe);
+    if (likely (!pe->flag_pollout)) {
+        pe->flag_pollout = true;
+        kevent_add (pe->fd, EVFILT_WRITE, pe);
+    }
 }
 
 void zmq::kqueue_t::reset_pollout (handle_t handle_)
 {
     poll_entry_t *pe = (poll_entry_t*) handle_;
-    pe->flag_pollout = false;
-    kevent_delete (pe->fd, EVFILT_WRITE);
+    if (likely (pe->flag_pollout)) {
+        pe->flag_pollout = false;
+        kevent_delete (pe->fd, EVFILT_WRITE);
+   }
 }
 
 void zmq::kqueue_t::start ()
