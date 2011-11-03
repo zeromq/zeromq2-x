@@ -70,6 +70,31 @@ const char *zmq::uuid_t::to_string ()
     return string_buf;
 }
 
+#elif defined ZMQ_HAVE_HPUX && defined HAVE_LIBDCEKT
+
+#include <dce/uuid.h>
+
+zmq::uuid_t::uuid_t ()
+{
+    unsigned32 status;
+    uuid_create (&uuid, &status);
+    zmq_assert (status == uuid_s_ok);
+    uuid_to_string (&uuid, &string_buf, &status);
+    zmq_assert (status == uuid_s_ok);
+
+    create_blob ();
+}
+
+zmq::uuid_t::~uuid_t ()
+{
+    free (string_buf);
+}
+
+const char *zmq::uuid_t::to_string ()
+{
+  return (char*) string_buf;
+}
+
 #elif defined ZMQ_HAVE_LINUX || defined ZMQ_HAVE_SOLARIS ||\
       defined ZMQ_HAVE_OSX || defined ZMQ_HAVE_CYGWIN
 
@@ -125,25 +150,13 @@ const char *zmq::uuid_t::to_string ()
 
 #include <stdio.h>
 #include <string.h>
-#if defined ZMQ_HAVE_HPUX && defined HAVE_LIBDCEKT
-#include <dce/uuid.h>
-#else
 #include <openssl/rand.h>
-#endif
 
 zmq::uuid_t::uuid_t ()
 {
     unsigned char rand_buf [16];
-#if defined ZMQ_HAVE_HPUX && defined HAVE_LIBDCEKT
-    ::uuid_t uuid;
-    unsigned32 ret;
-    uuid_create(&uuid, &ret);
-    zmq_assert (ret == uuid_s_ok);
-    memcpy(rand_buf, &uuid, sizeof(uuid));
-#else
     int ret = RAND_bytes (rand_buf, sizeof rand_buf);
     zmq_assert (ret == 1);
-#endif
 
     //  Read in UUID fields.
     memcpy (&time_low, rand_buf, sizeof time_low);
