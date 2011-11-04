@@ -179,7 +179,14 @@ case "${host_os}" in
         CPPFLAGS="-D_POSIX_C_SOURCE=200112L $CPPFLAGS"
         AC_DEFINE(ZMQ_HAVE_HPUX, 1, [Have HPUX OS])
         AC_CHECK_LIB(rt, sem_init)
-        AC_CHECK_LIB(crypto, RAND_bytes)
+        AC_ARG_WITH([dce],
+                    [AS_HELP_STRING([--without-dce],
+                                    [HP-UX only: Do not use DCE library for UUID functions])],,
+                    [],
+                    [with_dce=yes])
+        AS_IF([test "x$with_dce" != xno],
+              [AC_CHECK_LIB(dcekt, uuid_create)],
+              [AC_CHECK_LIB(crypto, RAND_bytes)])
         ;;
     *mingw32*)
         AC_DEFINE(ZMQ_HAVE_WINDOWS, 1, [Have Windows OS])
