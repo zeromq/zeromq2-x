@@ -14,7 +14,11 @@ Bug fixes
 Changes
 -------
 
-* New upstream OpenPGM maintenance release 5.1.118
+* Now builds properly on AIX 6.1 (AJ Lewis).
+
+* Builds using libdcekt on HP-UX (AJ Lewis).
+
+* New upstream OpenPGM maintenance release 5.1.118.
 
 * Enabled debugging on assertion failure on Windows (Paul Betts).
 
