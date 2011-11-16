@@ -102,7 +102,7 @@ static int resolve_nic_name (in_addr* addr_, char const *interface_)
     return 0;
 }
 
-#elif defined ZMQ_HAVE_AIX || ZMQ_HAVE_HPUX || ZMQ_HAVE_ANDROID
+#elif defined ZMQ_HAVE_AIX || defined ZMQ_HAVE_HPUX || defined ZMQ_HAVE_ANDROID
 #include <sys/ioctl.h>
 #include <net/if.h>
 
