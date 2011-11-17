@@ -4,6 +4,9 @@
 Bug fixes
 ---------
 
+* Fixed issue 281, crash opn heavy socket creation - assertion failure in
+  mutex.hpp:91. (Mika Fischer).
+
 * Fixed issue 273, O_CLOEXEC flag used in ip.cpp:192 is supported only 
   on Linux kernels 2.6.27+
 
