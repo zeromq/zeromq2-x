@@ -197,7 +197,7 @@ namespace zmq
                 throw error_t ();
         }
 
-        #ifdef ZMQ_HAS_RVALUE_REFS
+#ifdef ZMQ_HAS_RVALUE_REFS
         inline context_t(context_t&& rhs) : ptr(rhs.ptr)
         {
             rhs.ptr = NULL;
@@ -207,7 +207,7 @@ namespace zmq
             std::swap(ptr, rhs.ptr);
             return *this;
         }
-        #endif
+#endif
 
         inline ~context_t ()
         {
@@ -244,7 +244,7 @@ namespace zmq
                 throw error_t ();
         }
 
-        #ifdef ZMQ_HAS_RVALUE_REFS
+#ifdef ZMQ_HAS_RVALUE_REFS
         inline socket_t(socket_t&& rhs) : ptr(rhs.ptr)
         {
             rhs.ptr = NULL;
@@ -254,7 +254,7 @@ namespace zmq
             std::swap(ptr, rhs.ptr);
             return *this;
         }
-        #endif
+#endif
 
         inline ~socket_t ()
         {
