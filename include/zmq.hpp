@@ -29,15 +29,15 @@
 
 // Detect whether the compiler supports C++11 rvalue references.
 #if (defined(__GNUC__) && (__GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ > 2)) && defined(__GXX_EXPERIMENTAL_CXX0X__))
-    #define ZMQ_HAS_RVALUE_REFS
+#   define ZMQ_HAS_RVALUE_REFS
 #endif
 #if (defined(__clang__))
-    #if __has_feature(cxx_rvalue_references)
-        #define ZMQ_HAS_RVALUE_REFS
-    #endif
+#   if __has_feature(cxx_rvalue_references)
+#       define ZMQ_HAS_RVALUE_REFS
+#   endif
 #endif
 #if (defined(_MSC_VER) && (_MSC_VER >= 1600))
-    #define ZMQ_HAS_RVALUE_REFS
+#   define ZMQ_HAS_RVALUE_REFS
 #endif
 
 namespace zmq
