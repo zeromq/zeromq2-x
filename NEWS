@@ -14,6 +14,8 @@ Bug fixes
 
 * Fixed issue 269, faulty diagnostic code in 2.1.10.
 
+* Fixed issue 254, assertion failure at tcp_socket.cpp:229 on ENOTCONN.
+
 Changes
 -------
 
