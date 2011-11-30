@@ -214,11 +214,12 @@ int zmq::xrep_t::xsend (zmq_msg_t *msg_, int flags_)
             current_out = NULL;
         }
     }
-    int rc = zmq_msg_close (msg_);
-    zmq_assert (rc == 0);
-
+    else {
+        int rc = zmq_msg_close (msg_);
+        zmq_assert (rc == 0);
+    }
     //  Detach the message from the data buffer.
-    rc = zmq_msg_init (msg_);
+    int rc = zmq_msg_init (msg_);
     zmq_assert (rc == 0);
 
     return 0;
