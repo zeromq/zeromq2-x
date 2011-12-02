@@ -254,7 +254,7 @@ LIBZMQ_CHECK_DOC_BUILD
 # Checks for header files.
 AC_HEADER_STDC
 AC_CHECK_HEADERS(errno.h arpa/inet.h netinet/tcp.h netinet/in.h stddef.h \
-stdlib.h string.h sys/socket.h sys/time.h unistd.h limits.h)
+stdlib.h string.h sys/socket.h sys/time.h time.h unistd.h limits.h)
 
 # Check if we have ifaddrs.h header file.
 AC_CHECK_HEADERS(ifaddrs.h, [AC_DEFINE(ZMQ_HAVE_IFADDRS, 1, [Have ifaddrs.h header.])])
@@ -376,7 +376,7 @@ AM_CONDITIONAL(ON_MINGW, test "x$libzmq_on_mingw32" = "xyes")
 
 # Checks for library functions.
 AC_TYPE_SIGNAL
-AC_CHECK_FUNCS(perror gettimeofday memset socket getifaddrs freeifaddrs)
+AC_CHECK_FUNCS(perror gettimeofday clock_gettime memset socket getifaddrs freeifaddrs)
 AC_CHECK_HEADERS([alloca.h])
 LIBZMQ_CHECK_SOCK_CLOEXEC([AC_DEFINE(
                               [HAVE_SOCK_CLOEXEC],
