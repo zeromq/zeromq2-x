@@ -4,6 +4,9 @@
 Bug fixes
 ---------
 
+* Fixed issue 290, zmq_poll was using system time instead of monotonic
+  clock (Mika Fischer).
+
 * Fixed issue 281, crash on heavy socket creation - assertion failure in
   mutex.hpp:91. (Mika Fischer).
 
