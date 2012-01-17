@@ -40,7 +40,10 @@ may remove or edit it.
    The file `configure.ac' (or `configure.in') is used to create
 `configure' by a program called `autoconf'.  You need `configure.ac' if
 you want to change it or regenerate `configure' using a newer version
-of `autoconf'.
+of `autoconf'.   Prior to creating `configure', you may need to run
+additional autotools commands:  `libtoolize', `autoheader', and
+`automake --add-missing'.  After running these, you can proceed with
+`autoconf' and `./configure'.
 
 The simplest way to compile this package is:
 
