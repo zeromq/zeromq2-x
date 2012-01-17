@@ -72,7 +72,7 @@ namespace zmq
             //  session that the connection have failed.
             struct {
                 struct i_engine *engine;
-                unsigned char peer_identity_size;
+                size_t peer_identity_size;
                 unsigned char *peer_identity;
             } attach;
 
@@ -81,7 +81,7 @@ namespace zmq
             struct {
                 class reader_t *in_pipe;
                 class writer_t *out_pipe;
-                unsigned char peer_identity_size;
+                size_t peer_identity_size;
                 unsigned char *peer_identity;
             } bind;
 
