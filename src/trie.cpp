@@ -42,8 +42,11 @@ zmq::trie_t::trie_t () :
 
 zmq::trie_t::~trie_t ()
 {
-    if (count == 1)
+    if (count == 1) {
+        zmq_assert (next.node);
         delete next.node;
+        next.node = 0;
+    }
     else if (count > 1) {
         for (unsigned short i = 0; i != count; ++i)
             if (next.table [i])
@@ -151,8 +154,10 @@ bool zmq::trie_t::rm (unsigned char *prefix_, size_t size_)
 
      if (next_node->is_redundant ()) {
          delete next_node;
-         if (count == 1)
+         if (count == 1) {
              next.node = 0;
+             count = 0;
+         }
          else
              next.table [c - min] = 0;
          --live_nodes;
