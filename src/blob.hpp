@@ -23,6 +23,10 @@
 
 #include <string>
 
+#if (defined(__GNUC__) && (__GNUC__ == 3))
+#include "gcc_421_char_traits.hpp"
+#endif
+
 namespace zmq
 {
 
