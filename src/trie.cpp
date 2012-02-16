@@ -1,5 +1,6 @@
 /*
     Copyright (c) 2007-2011 iMatix Corporation
+    Copyright (c) 2011-2012 Spotify AB
     Copyright (c) 2007-2011 Other contributors as noted in the AUTHORS file
 
     This file is part of 0MQ.
@@ -34,14 +35,18 @@
 zmq::trie_t::trie_t () :
     refcnt (0),
     min (0),
-    count (0)
+    count (0),
+    live_nodes (0)
 {
 }
 
 zmq::trie_t::~trie_t ()
 {
-    if (count == 1)
+    if (count == 1) {
+        zmq_assert (next.node);
         delete next.node;
+        next.node = 0;
+    }
     else if (count > 1) {
         for (unsigned short i = 0; i != count; ++i)
             if (next.table [i])
@@ -112,6 +117,7 @@ void zmq::trie_t::add (unsigned char *prefix_, size_t size_)
         if (!next.node) {
             next.node = new (std::nothrow) trie_t;
             alloc_assert (next.node);
+            ++live_nodes;
         }
         next.node->add (prefix_ + 1, size_ - 1);
     }
@@ -119,6 +125,7 @@ void zmq::trie_t::add (unsigned char *prefix_, size_t size_)
         if (!next.table [c - min]) {
             next.table [c - min] = new (std::nothrow) trie_t;
             alloc_assert (next.table [c - min]);
+            ++live_nodes;
         }
         next.table [c - min]->add (prefix_ + 1, size_ - 1);
     }
@@ -143,7 +150,20 @@ bool zmq::trie_t::rm (unsigned char *prefix_, size_t size_)
      if (!next_node)
          return false;
 
-     return next_node->rm (prefix_ + 1, size_ - 1);
+     bool ret = next_node->rm (prefix_ + 1, size_ - 1);
+
+     if (next_node->is_redundant ()) {
+         delete next_node;
+         if (count == 1) {
+             next.node = 0;
+             count = 0;
+         }
+         else
+             next.table [c - min] = 0;
+         --live_nodes;
+     }
+
+     return ret;
 }
 
 bool zmq::trie_t::check (unsigned char *data_, size_t size_)
@@ -178,4 +198,9 @@ bool zmq::trie_t::check (unsigned char *data_, size_t size_)
         data_++;
         size_--;
     }
+}
+
+bool zmq::trie_t::is_redundant() const
+{
+    return refcnt == 0 && live_nodes == 0;
 }

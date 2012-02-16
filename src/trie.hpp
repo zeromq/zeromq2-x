@@ -1,5 +1,6 @@
 /*
     Copyright (c) 2007-2011 iMatix Corporation
+    Copyright (c) 2011-2012 Spotify AB
     Copyright (c) 2007-2011 Other contributors as noted in the AUTHORS file
 
     This file is part of 0MQ.
@@ -40,10 +41,12 @@ namespace zmq
         bool check (unsigned char *data_, size_t size_);
 
     private:
+        bool is_redundant () const;
 
         uint32_t refcnt;
         unsigned char min;
         unsigned short count;
+        unsigned short live_nodes;
         union {
             class trie_t *node;
             class trie_t **table;
