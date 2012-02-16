@@ -4,8 +4,9 @@
 Bug fixes
 ---------
 
-* Fixed issue 301, Fix builds on HP-UX 11iv3 when using either gcc or aCC.
+* Fixed issue 301, fix builds on HP-UX 11iv3 when using either gcc or aCC.
 
+* Fixed issue 305, memory leakage when using dynamic subscriptions. 
 
 
 0MQ version 2.1.11 (Stable), released on 2011/12/18
