@@ -68,7 +68,11 @@ int zmq::options_t::setsockopt (int option_, const void *optval_,
         }
         //  Check that SWAP directory (.) is writable
         struct stat stat_buf;
-        if (stat (".", &stat_buf) || ((stat_buf.st_mode & S_IWRITE) == 0)) {
+#if (ZMQ_HAVE_ANDROID || ZMQ_HAVE_LINUX)
+            if (stat (".", &stat_buf) || ((stat_buf.st_mode & S_IWUSR) == 0)) {
+#else
+            if (stat (".", &stat_buf) || ((stat_buf.st_mode & S_IWRITE) == 0)) {
+#endif
             errno = EACCES;
             return -1;
         }
@@ -103,7 +107,7 @@ int zmq::options_t::setsockopt (int option_, const void *optval_,
         }
         rate = (uint32_t) *((int64_t*) optval_);
         return 0;
-        
+
     case ZMQ_RECOVERY_IVL:
         if (optvallen_ != sizeof (int64_t)  || *((int64_t*) optval_) < 0) {
             errno = EINVAL;
@@ -246,7 +250,7 @@ int zmq::options_t::getsockopt (int option_, void *optval_, size_t *optvallen_)
         *((int64_t*) optval_) = rate;
         *optvallen_ = sizeof (int64_t);
         return 0;
-        
+
     case ZMQ_RECOVERY_IVL:
         if (*optvallen_ < sizeof (int64_t)) {
             errno = EINVAL;
