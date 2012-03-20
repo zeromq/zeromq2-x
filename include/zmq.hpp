@@ -23,6 +23,7 @@
 
 #include "zmq.h"
 
+#include <algorithm>
 #include <cassert>
 #include <cstring>
 #include <exception>
