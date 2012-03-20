@@ -8,6 +8,8 @@ Bug fixes
 
 * Fixed issue 305, memory leakage when using dynamic subscriptions. 
 
+* Fixed issue 332, libzmq doesn't compile on Android NDK.
+
 
 0MQ version 2.1.11 (Stable), released on 2011/12/18
 ===================================================
