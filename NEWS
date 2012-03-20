@@ -12,6 +12,8 @@ Bug fixes
 
 * Fixed issue 293, libzmq doesn't follow ZMTP/1.0 spec.
 
+* Fixed issue 342, cannot build against zmq.hpp under C++11.
+
 
 0MQ version 2.1.11 (Stable), released on 2011/12/18
 ===================================================
