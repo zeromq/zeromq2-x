@@ -4,6 +4,8 @@
 Bug fixes
 ---------
 
+* Fixed issue 349, add send/recv socket options
+
 * Fixed issue 301, fix builds on HP-UX 11iv3 when using either gcc or aCC.
 
 * Fixed issue 305, memory leakage when using dynamic subscriptions. 

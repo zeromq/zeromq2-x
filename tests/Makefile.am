@@ -10,7 +10,8 @@ noinst_PROGRAMS = test_pair_inproc \
 if !ON_MINGW
 noinst_PROGRAMS += test_shutdown_stress \
                    test_pair_ipc \
-                   test_reqrep_ipc
+                   test_reqrep_ipc \
+                   test_timeo
 endif
 
 test_pair_inproc_SOURCES = test_pair_inproc.cpp testutil.hpp
@@ -25,6 +26,7 @@ if !ON_MINGW
 test_shutdown_stress_SOURCES = test_shutdown_stress.cpp
 test_pair_ipc_SOURCES = test_pair_ipc.cpp testutil.hpp
 test_reqrep_ipc_SOURCES = test_reqrep_ipc.cpp testutil.hpp
+test_timeo_SOURCES = test_timeo.cpp
 endif
 
 TESTS = $(noinst_PROGRAMS)
