@@ -80,6 +80,10 @@ namespace zmq
         //  is not aware of the peer's identity, however, it is able to send
         //  messages straight away.
         bool immediate_connect;
+
+        // The timeout for send/recv operations for this socket.
+        int rcvtimeo;
+        int sndtimeo;
     };
 
 }

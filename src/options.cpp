@@ -18,6 +18,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <stdio.h>
 #include <string.h>
 #ifndef ZMQ_HAVE_WINDOWS
 #include <sys/stat.h>
@@ -44,7 +45,9 @@ zmq::options_t::options_t () :
     backlog (100),
     requires_in (false),
     requires_out (false),
-    immediate_connect (true)
+    immediate_connect (true),
+    rcvtimeo (-1),
+    sndtimeo (-1)
 {
 }
 
@@ -195,6 +198,22 @@ int zmq::options_t::setsockopt (int option_, const void *optval_,
         backlog = *((int*) optval_);
         return 0;
 
+    case ZMQ_RCVTIMEO:
+        if (optvallen_ != sizeof (int)) {
+            errno = EINVAL;
+            return -1;
+        }
+        rcvtimeo = *((int*) optval_);
+        return 0;
+
+    case ZMQ_SNDTIMEO:
+        if (optvallen_ != sizeof (int)) {
+            errno = EINVAL;
+            return -1;
+        }
+        sndtimeo = *((int*) optval_);
+        return 0;
+
     }
 
     errno = EINVAL;
@@ -338,6 +357,24 @@ int zmq::options_t::getsockopt (int option_, void *optval_, size_t *optvallen_)
             return -1;
         }
         *((int*) optval_) = backlog;
+        *optvallen_ = sizeof (int);
+        return 0;
+
+    case ZMQ_RCVTIMEO:
+        if (*optvallen_ < sizeof (int)) {
+            errno = EINVAL;
+            return -1;
+        }
+        *((int*) optval_) = rcvtimeo;
+        *optvallen_ = sizeof (int);
+        return 0;
+
+    case ZMQ_SNDTIMEO:
+        if (*optvallen_ < sizeof (int)) {
+            errno = EINVAL;
+            return -1;
+        }
+        *((int*) optval_) = sndtimeo;
         *optvallen_ = sizeof (int);
         return 0;
 
