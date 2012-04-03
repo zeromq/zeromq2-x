@@ -510,13 +510,13 @@ int zmq::socket_base_t::send (::zmq_msg_t *msg_, int flags_)
 
     //  In case of non-blocking send we'll simply propagate
     //  the error - including EAGAIN - upwards.
-    if (flags_ & ZMQ_NOBLOCK)
+    if (flags_ & ZMQ_NOBLOCK || options.sndtimeo == 0)
         return -1;
 
     //  Compute the time when the timeout should occur.
     //  If the timeout is infite, don't care. 
     clock_t clock ;
-    int timeout = -1;
+    int timeout = options.sndtimeo;
     uint64_t end = timeout < 0 ? 0 : (clock.now_ms () + timeout);
 
     //  Oops, we couldn't send the message. Wait for the next
@@ -589,7 +589,7 @@ int zmq::socket_base_t::recv (::zmq_msg_t *msg_, int flags_)
     //  For non-blocking recv, commands are processed in case there's an
     //  activate_reader command already waiting int a command pipe.
     //  If it's not, return EAGAIN.
-    if (flags_ & ZMQ_NOBLOCK) {
+    if (flags_ & ZMQ_NOBLOCK || options.rcvtimeo == 0) {
         if (errno != EAGAIN)
             return -1;
         if (unlikely (process_commands (0, false) != 0))
@@ -608,7 +608,7 @@ int zmq::socket_base_t::recv (::zmq_msg_t *msg_, int flags_)
     //  Compute the time when the timeout should occur.
     //  If the timeout is infite, don't care. 
     clock_t clock ;
-    int timeout = -1;
+    int timeout = options.rcvtimeo;
     uint64_t end = timeout < 0 ? 0 : (clock.now_ms () + timeout);
 
     //  In blocking scenario, commands are processed over and over again until
