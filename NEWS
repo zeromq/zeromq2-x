@@ -1,10 +1,13 @@
-0MQ version 2.1.12 (Stable), released on 2012/xx/xx
-===================================================
+0MQ version 2.2.0 (Stable), released on 2012/04/04
+==================================================
+
+Changes
+-------
+
+* Fixed issue 349, add send/recv timeout socket options.
 
 Bug fixes
 ---------
-
-* Fixed issue 349, add send/recv socket options
 
 * Fixed issue 301, fix builds on HP-UX 11iv3 when using either gcc or aCC.
 
