@@ -197,7 +197,10 @@ int zmq::tcp_socket_t::write (const void *data, int size)
         return 0;
 
     //  Signalise peer failure.
-    if (nbytes == -1 && (errno == ECONNRESET || errno == EPIPE))
+    if (nbytes == -1
+    && (errno == ECONNRESET
+     || errno == EPIPE
+     || errno == ETIMEDOUT))
         return -1;
 
     errno_assert (nbytes != -1);
