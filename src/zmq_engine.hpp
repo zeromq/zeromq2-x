@@ -78,6 +78,9 @@ namespace zmq
 
         bool plugged;
 
+        //  True if input error has occurred.
+        bool input_error;
+
         zmq_engine_t (const zmq_engine_t&);
         const zmq_engine_t &operator = (const zmq_engine_t&);
     };
