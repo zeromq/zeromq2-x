@@ -43,7 +43,8 @@ zmq::zmq_engine_t::zmq_engine_t (fd_t fd_, const options_t &options_) :
     inout (NULL),
     ephemeral_inout (NULL),
     options (options_),
-    plugged (false)
+    plugged (false),
+    input_error (false)
 {
     //  Initialise the underlying socket.
     int rc = tcp_socket.open (fd_, options.sndbuf, options.rcvbuf);
@@ -152,8 +153,18 @@ void zmq::zmq_engine_t::in_event ()
         inout->flush ();
     }
 
-    if (inout && disconnection)
-        error ();
+    //  Input error has occurred. If the last decoded
+    //  message has already been accepted, we terminate
+    //  the engine immediately. Otherwise, we stop
+    //  waiting for input events and postpone the termination
+    //  until after the session has accepted the message.
+    if (inout && disconnection) {
+        input_error = true;
+        if (decoder.stalled ())
+            reset_pollin (handle);
+        else
+            error ();
+    }
 }
 
 void zmq::zmq_engine_t::out_event ()
@@ -182,9 +193,11 @@ void zmq::zmq_engine_t::out_event ()
     //  possible to the socket.
     int nbytes = tcp_socket.write (outpos, outsize);
 
-    //  Handle problems with the connection.
+    //  IO error has occurred. We stop waiting for output events.
+    //  The engine is not terminated until we detect input error;
+    //  this is necessary to prevent losing incomming messages.
     if (nbytes == -1) {
-        error ();
+        reset_pollout (handle);
         return;
     }
 
@@ -205,6 +218,17 @@ void zmq::zmq_engine_t::activate_out ()
 
 void zmq::zmq_engine_t::activate_in ()
 {
+    if (input_error) {
+        //  There was an input error but the engine could not
+        //  be terminated (due to the stalled decoder).
+        //  Flush the pending message and terminate the engine now.
+        decoder.process_buffer (inpos, 0);
+        zmq_assert (!decoder.stalled ());
+        inout->flush ();
+        error ();
+        return;
+    }
+
     set_pollin (handle);
 
     //  Speculative read.
