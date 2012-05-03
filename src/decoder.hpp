@@ -49,9 +49,9 @@ namespace zmq
     public:
 
         inline decoder_base_t (size_t bufsize_) :
+            next (NULL),
             read_pos (NULL),
             to_read (0),
-            next (NULL),
             bufsize (bufsize_)
         {
             buf = (unsigned char*) malloc (bufsize_);
@@ -162,11 +162,12 @@ namespace zmq
             next = NULL;
         }
 
+        step_t next;
+
     private:
 
         unsigned char *read_pos;
         size_t to_read;
-        step_t next;
 
         size_t bufsize;
         unsigned char *buf;
@@ -185,6 +186,10 @@ namespace zmq
         ~decoder_t ();
 
         void set_inout (struct i_inout *destination_);
+
+        //  Returns true if there is a decoded message
+        //  waiting to be delivered to the message consumer.
+        bool stalled () const;
 
     private:
 
