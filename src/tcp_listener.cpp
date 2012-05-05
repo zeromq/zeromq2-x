@@ -65,6 +65,10 @@ int zmq::tcp_listener_t::set_address (const char *protocol_, const char *addr_,
         return -1;
     }
 
+    //  On Windows, preventing sockets to be inherited by child processes.
+    BOOL brc = SetHandleInformation ((HANDLE) s, HANDLE_FLAG_INHERIT, 0);
+    win_assert (brc);
+
     //  Allow reusing of the address.
     int flag = 1;
     rc = setsockopt (s, SOL_SOCKET, SO_EXCLUSIVEADDRUSE,
@@ -119,6 +123,10 @@ zmq::fd_t zmq::tcp_listener_t::accept ()
         return retired_fd;
 
     zmq_assert (sock != INVALID_SOCKET);
+
+    //  On Windows, preventing sockets to be inherited by child processes.
+    BOOL brc = SetHandleInformation ((HANDLE) sock, HANDLE_FLAG_INHERIT, 0);
+    win_assert (brc);
 
     // Set to non-blocking mode.
     unsigned long argp = 1;
