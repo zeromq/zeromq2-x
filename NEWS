@@ -1,3 +1,14 @@
+0MQ version 2.2.x (Stable), released on 2012/xx/xx
+==================================================
+
+Bug fixes
+---------
+
+* Fixed issue 353, assertion failure in tcp_socket.cpp:211.
+
+* Fixed issue 366, emulate O_CLOEXEC on Windows.
+
+
 0MQ version 2.2.0 (Stable), released on 2012/04/04
 ==================================================
 
