@@ -10,6 +10,8 @@ Bug fixes
 
 * Fixed issue 366, emulate O_CLOEXEC on Windows.
 
+* Fixed issue 363, did not build Redhat RPMs.
+
 
 0MQ version 2.2.0 (Stable), released on 2012/04/04
 ==================================================
