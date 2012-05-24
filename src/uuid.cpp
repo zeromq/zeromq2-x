@@ -39,10 +39,19 @@ zmq::uuid_t::~uuid_t ()
         RpcStringFree (&string_buf);
 }
 
+#ifdef UNICODE
+const short *zmq::uuid_t::to_string ()
+{
+    return (short*) string_buf;
+}
+#else
 const char *zmq::uuid_t::to_string ()
 {
     return (char*) string_buf;
 }
+#endif
+
+
 
 #elif defined ZMQ_HAVE_FREEBSD || defined ZMQ_HAVE_NETBSD || (defined ZMQ_HAVE_HPUX && defined HAVE_LIBDCEKT)
 

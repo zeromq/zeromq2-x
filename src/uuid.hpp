@@ -63,7 +63,13 @@ namespace zmq
         //  Returns a pointer to buffer containing the textual
         //  representation of the UUID. The callee is reponsible to
         //  free the allocated memory.
-        const char *to_string ();
+
+		#ifdef UNICODE
+		const short *to_string ();
+		#else
+		const char *to_string ();
+		#endif
+        
 
         //  The length of binary representation of UUID.
         enum { uuid_blob_len = 16 };
@@ -83,8 +89,20 @@ namespace zmq
 #ifdef ZMQ_HAVE_MINGW32
         typedef unsigned char* RPC_CSTR;
 #endif
+
+
         ::UUID uuid;
-        RPC_CSTR string_buf;
+
+#ifdef UNICODE
+		RPC_WSTR string_buf;
+#else
+		RPC_CSTR string_buf;
+#endif
+
+        
+
+
+
 #elif defined ZMQ_HAVE_FREEBSD || defined ZMQ_HAVE_NETBSD
         ::uuid_t uuid;
         char *string_buf;
