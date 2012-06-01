@@ -48,6 +48,9 @@
 #include "platform.hpp"
 #include "likely.hpp"
 #include "uuid.hpp"
+#ifdef ZMQ_HAVE_OPENPGM
+#include "pgm_socket.hpp"
+#endif
 
 #include "pair.hpp"
 #include "pub.hpp"
@@ -439,6 +442,18 @@ int zmq::socket_base_t::connect (const char *addr_)
         errno = EMTHREAD;
         return -1;
     }
+
+#ifdef ZMQ_HAVE_OPENPGM
+    if (protocol == "pgm" || protocol == "epgm") {
+        struct pgm_addrinfo_t *res = NULL;
+        uint16_t port_number = 0;
+        int rc = pgm_socket_t::init_address(address.c_str(), &res, &port_number);
+        if (res != NULL)
+            pgm_freeaddrinfo (res);
+        if (rc != 0 || port_number == 0)
+            return -1;
+    }
+#endif
 
     //  Create session.
     connect_session_t *session = new (std::nothrow) connect_session_t (

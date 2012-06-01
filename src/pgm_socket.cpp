@@ -57,16 +57,14 @@ zmq::pgm_socket_t::pgm_socket_t (bool receiver_, const options_t &options_) :
 {
 }
 
-//  Create, bind and connect PGM socket.
+//  Resolve PGM socket address.
 //  network_ of the form <interface & multicast group decls>:<IP port>
 //  e.g. eth0;239.192.0.1:7500
 //       link-local;224.250.0.1,224.250.0.2;224.250.0.3:8000
 //       ;[fe80::1%en0]:7500
-int zmq::pgm_socket_t::init (bool udp_encapsulation_, const char *network_)
+int zmq::pgm_socket_t::init_address (const char *network_,
+    struct pgm_addrinfo_t **addr, uint16_t *port_number)
 {
-    //  Can not open transport before destroying old one. 
-    zmq_assert (sock == NULL);
- 
     //  Parse port number, start from end for IPv6
     const char *port_delim = strrchr (network_, ':');
     if (!port_delim) {
@@ -74,7 +72,7 @@ int zmq::pgm_socket_t::init (bool udp_encapsulation_, const char *network_)
         return -1;
     }
 
-    uint16_t port_number = atoi (port_delim + 1);
+    *port_number = atoi (port_delim + 1);
   
     char network [256];
     if (port_delim - network_ >= (int) sizeof (network) - 1) {
@@ -83,14 +81,46 @@ int zmq::pgm_socket_t::init (bool udp_encapsulation_, const char *network_)
     }
     memset (network, '\0', sizeof (network));
     memcpy (network, network_, port_delim - network_);
-   
-    //  Validate socket options 
+
+    pgm_error_t *pgm_error = NULL;
+    struct pgm_addrinfo_t hints;
+    memset (&hints, 0, sizeof (hints));
+    hints.ai_family = AF_UNSPEC;
+    if (!pgm_getaddrinfo (network, NULL, addr, &pgm_error)) {
+
+        //  Invalid parameters don't set pgm_error_t.
+        zmq_assert (pgm_error != NULL);
+        if (pgm_error->domain == PGM_ERROR_DOMAIN_IF &&
+
+              //  NB: cannot catch EAI_BADFLAGS.
+            ( pgm_error->code != PGM_ERROR_SERVICE &&
+              pgm_error->code != PGM_ERROR_SOCKTNOSUPPORT)) {
+
+            //  User, host, or network configuration or transient error.
+            pgm_error_free (pgm_error);
+            errno = EINVAL;
+            return -1;
+        }
+
+        //  Fatal OpenPGM internal error.
+        zmq_assert (false);
+    }
+    return 0;
+}
+
+//  Create, bind and connect PGM socket.
+int zmq::pgm_socket_t::init (bool udp_encapsulation_, const char *network_)
+{
+    //  Can not open transport before destroying old one.
+    zmq_assert (sock == NULL);
+
+    //  Validate socket options
     //  Data rate is in [B/s]. options.rate is in [kb/s].
     if (options.rate <= 0) {
         errno = EINVAL;
         return -1;
     }
-    //  Recovery interval [s] or [ms] - based on the user's call 
+    //  Recovery interval [s] or [ms] - based on the user's call
     if ((options.recovery_ivl <= 0) && (options.recovery_ivl_msec <= 0)) {
         errno = EINVAL;
         return -1;
@@ -101,27 +131,14 @@ int zmq::pgm_socket_t::init (bool udp_encapsulation_, const char *network_)
     nbytes_processed = 0;
     pgm_msgv_processed = 0;
 
-    pgm_error_t *pgm_error = NULL;
-    struct pgm_addrinfo_t hints, *res = NULL;
+    uint16_t port_number;
+    struct pgm_addrinfo_t *res = NULL;
     sa_family_t sa_family;
 
-    memset (&hints, 0, sizeof (hints));
-    hints.ai_family = AF_UNSPEC;
-    if (!pgm_getaddrinfo (network, NULL, &res, &pgm_error)) {
+    pgm_error_t *pgm_error = NULL;
 
-        //  Invalid parameters don't set pgm_error_t.
-        zmq_assert (pgm_error != NULL);
-        if (pgm_error->domain == PGM_ERROR_DOMAIN_IF && (
-
-              //  NB: cannot catch EAI_BADFLAGS.
-              pgm_error->code != PGM_ERROR_SERVICE &&
-              pgm_error->code != PGM_ERROR_SOCKTNOSUPPORT))
-
-            //  User, host, or network configuration or transient error.
-            goto err_abort;
-
-        //  Fatal OpenPGM internal error.
-        zmq_assert (false);
+    if (init_address(network_, &res, &port_number) < 0) {
+        goto err_abort;
     }
 
     zmq_assert (res != NULL);
