@@ -290,6 +290,7 @@ zmq::fd_t zmq::tcp_connecter_t::connect ()
     socklen_t len = sizeof (err);
 #endif
     int rc = getsockopt (s, SOL_SOCKET, SO_ERROR, (char*) &err, &len);
+    fprintf(stderr, "zmq connect socket fd is %d\n", s);
     if (rc == -1)
         err = errno;
     if (err != 0) {
