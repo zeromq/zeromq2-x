@@ -213,35 +213,89 @@ void zmq::wsa_error_to_errno ()
 {
     int errcode = WSAGetLastError ();
     switch (errcode) {
-    case WSAEINPROGRESS:
-        errno = EAGAIN;
-        return;
+//  10009 - File handle is not valid.
     case WSAEBADF:
         errno = EBADF;
         return;
-    case WSAEINVAL:
-        errno = EINVAL;
+//  10013 - Permission denied.
+    case WSAEACCES:
+        errno = EACCES;
         return;
-    case WSAEMFILE:
-        errno = EMFILE;
-        return;
+//  10014 - Bad address.
     case WSAEFAULT:
         errno = EFAULT;
         return;
+//  10022 - Invalid argument.
+    case WSAEINVAL:
+        errno = EINVAL;
+        return;
+//  10024 - Too many open files.
+    case WSAEMFILE:
+        errno = EMFILE;
+        return;
+//  10036 - Operation now in progress.
+    case WSAEINPROGRESS:
+        errno = EAGAIN;
+        return;
+//  10040 - Message too long.
+    case WSAEMSGSIZE:
+        errno = EMSGSIZE;
+        return;
+//  10043 - Protocol not supported.
     case WSAEPROTONOSUPPORT:
         errno = EPROTONOSUPPORT;
         return;
-    case WSAENOBUFS:
-        errno = ENOBUFS;
+//  10047 - Address family not supported by protocol family.
+    case WSAEAFNOSUPPORT:
+        errno = EAFNOSUPPORT;
         return;
-    case WSAENETDOWN:
-        errno = ENETDOWN;
-        return;
+//  10048 - Address already in use.
     case WSAEADDRINUSE:
         errno = EADDRINUSE;
         return;
+//  10049 - Cannot assign requested address.
     case WSAEADDRNOTAVAIL:
         errno = EADDRNOTAVAIL;
+        return;
+//  10050 - Network is down.
+    case WSAENETDOWN:
+        errno = ENETDOWN;
+        return;
+//  10051 - Network is unreachable.
+    case WSAENETUNREACH:
+        errno = ENETUNREACH;
+        return;
+//  10052 - Network dropped connection on reset.
+    case WSAENETRESET:
+        errno = ENETRESET;
+        return;
+//  10053 - Software caused connection abort.
+    case WSAECONNABORTED:
+        errno = ECONNABORTED;
+        return;
+//  10054 - Connection reset by peer.
+    case WSAECONNRESET:
+        errno = ECONNRESET;
+        return;
+//  10055 - No buffer space available.
+    case WSAENOBUFS:
+        errno = ENOBUFS;
+        return;
+//  10057 - Socket is not connected.
+    case WSAENOTCONN:
+        errno = ENOTCONN;
+        return;
+//  10060 - Connection timed out.
+    case WSAETIMEDOUT:
+        errno = ETIMEDOUT;
+        return;
+//  10061 - Connection refused.
+    case WSAECONNREFUSED:
+        errno = ECONNREFUSED;
+        return;
+//  10065 - No route to host.
+    case WSAEHOSTUNREACH:
+        errno = EHOSTUNREACH;
         return;
     default:
         wsa_assert (false);
