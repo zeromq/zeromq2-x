@@ -193,7 +193,7 @@ const unsigned char *zmq::uuid_t::to_blob ()
     return blob_buf;
 }
 
-unsigned char zmq::uuid_t::convert_byte (const char *hexa_)
+unsigned char zmq::uuid_t::convert_byte (char *hexa_)
 {
     unsigned char byte;
 
@@ -210,7 +210,12 @@ unsigned char zmq::uuid_t::convert_byte (const char *hexa_)
 
     byte *= 16;
 
+#ifdef UNICODE
+	hexa_++;  // since hexa_ really refers to a short... lets skip one.
+#endif
     hexa_++;
+
+
     if (*hexa_ >= '0' && *hexa_ <= '9')
         byte += *hexa_ - '0';
     else if (*hexa_ >= 'A' && *hexa_ <= 'F')
@@ -225,9 +230,31 @@ unsigned char zmq::uuid_t::convert_byte (const char *hexa_)
 
 void zmq::uuid_t::create_blob ()
 {
-    const char *buf = (const char*) string_buf;
+    char *buf = new char; buf = reinterpret_cast<char*>(string_buf);
 
-    blob_buf [0] = convert_byte (buf + 0);
+#ifdef UNICODE // we need to jump twice as far.
+	blob_buf [0] = convert_byte (buf + 0);
+    blob_buf [1] = convert_byte (buf + 4);
+    blob_buf [2] = convert_byte (buf + 8);
+    blob_buf [3] = convert_byte (buf + 12);
+
+    blob_buf [4] = convert_byte (buf + 18);
+    blob_buf [5] = convert_byte (buf + 22);
+
+    blob_buf [6] = convert_byte (buf + 28);
+    blob_buf [7] = convert_byte (buf + 32);
+
+    blob_buf [8] = convert_byte (buf + 38);
+    blob_buf [9] = convert_byte (buf + 42);
+
+    blob_buf [10] = convert_byte (buf + 48);
+    blob_buf [11] = convert_byte (buf + 52);
+    blob_buf [12] = convert_byte (buf + 56);
+    blob_buf [13] = convert_byte (buf + 60);
+    blob_buf [14] = convert_byte (buf + 64);
+    blob_buf [15] = convert_byte (buf + 68);
+#else
+	blob_buf [0] = convert_byte (buf + 0);
     blob_buf [1] = convert_byte (buf + 2);
     blob_buf [2] = convert_byte (buf + 4);
     blob_buf [3] = convert_byte (buf + 6);
@@ -247,4 +274,7 @@ void zmq::uuid_t::create_blob ()
     blob_buf [13] = convert_byte (buf + 30);
     blob_buf [14] = convert_byte (buf + 32);
     blob_buf [15] = convert_byte (buf + 34);
+#endif
+
+	buf = NULL; delete buf;
 }

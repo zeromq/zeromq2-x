@@ -79,7 +79,7 @@ namespace zmq
     private:
 
         //  Converts one byte from hexa representation to binary.
-        unsigned char convert_byte (const char *hexa_);
+        unsigned char convert_byte (char *hexa_);
 
         //  Converts string representation of UUID into standardised BLOB.
         //  The function is endianness agnostic.
