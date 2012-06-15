@@ -4,6 +4,8 @@
 Bug fixes
 ---------
 
+* Fixed issue 383, assertion failure in uuid.cpp:226.
+
 * Fixed issue 264, message loss at socket shutdown.
 
 * Fixed issue 353, assertion failure in tcp_socket.cpp:211.
