@@ -317,6 +317,15 @@ void *zmq_socket (void *ctx_, int type_)
     return (void*) (((zmq::ctx_t*) ctx_)->create_socket (type_));
 }
 
+zmq_fd_t zmq_socket_getfd (void *s_)
+{
+    if (!s_ || !((zmq::socket_base_t*) s_)->check_tag ()) {
+        errno = ENOTSOCK;
+        return -1;
+    }
+    return (((zmq::socket_base_t*) s_)->get_mailbox()->get_fd());
+}
+
 int zmq_close (void *s_)
 {
     if (!s_ || !((zmq::socket_base_t*) s_)->check_tag ()) {
