@@ -136,8 +136,6 @@ zmq::socket_base_t::~socket_base_t ()
     zmq_assert (sessions.empty ());
     sessions_sync.unlock ();
 
-    //  Mark the socket as dead.
-    tag = 0xdeadbeef;
 }
 
 zmq::mailbox_t *zmq::socket_base_t::get_mailbox ()
@@ -657,6 +655,9 @@ int zmq::socket_base_t::recv (::zmq_msg_t *msg_, int flags_)
 
 int zmq::socket_base_t::close ()
 {
+    //  Mark the socket as dead.
+    tag = 0xdeadbeef;
+
     //  Transfer the ownership of the socket from this application thread
     //  to the reaper thread which will take care of the rest of shutdown
     //  process.
