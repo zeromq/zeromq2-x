@@ -85,7 +85,7 @@ int zmq::tcp_connecter_t::open ()
     //  Asynchronous connect was launched.
     if (rc == SOCKET_ERROR && (WSAGetLastError () == WSAEINPROGRESS ||
           WSAGetLastError () == WSAEWOULDBLOCK)) {
-        errno = EAGAIN;
+        errno = EINPROGRESS;
         return -1;
     }
 
@@ -216,11 +216,9 @@ int zmq::tcp_connecter_t::open ()
         if (rc == 0)
             return 0;
 
-        //  Asynchronous connect was launched.
-        if (rc == -1 && errno == EINPROGRESS) {
-            errno = EAGAIN;
+        //  Connection still in progress.
+        if (errno == EINPROGRESS)
             return -1;
-        }
 
         //  Error occured.
         int err = errno;
@@ -251,6 +249,10 @@ int zmq::tcp_connecter_t::open ()
         //  Connect was successfull immediately.
         if (rc == 0)
             return 0;
+
+        //  Connection still in progress.
+        if (errno == EINPROGRESS)
+            return -1;
 
         //  Error occured.
         int err = errno;
