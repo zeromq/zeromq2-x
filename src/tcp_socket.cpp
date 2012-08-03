@@ -79,7 +79,7 @@ int zmq::tcp_socket_t::write (const void *data, int size)
     //  we'll get an error (this may happen during the speculative write).
     if (nbytes == SOCKET_ERROR && WSAGetLastError () == WSAEWOULDBLOCK)
         return 0;
-		
+
     //  Signalise peer failure.
     if (nbytes == -1 && (
           WSAGetLastError () == WSAENETDOWN ||
@@ -119,7 +119,7 @@ int zmq::tcp_socket_t::read (void *data, int size)
 
     //  Orderly shutdown by the other peer.
     if (nbytes == 0)
-        return -1; 
+        return -1;
 
     return (size_t) nbytes;
 }
@@ -147,7 +147,7 @@ zmq::tcp_socket_t::~tcp_socket_t ()
 
 int zmq::tcp_socket_t::open (fd_t fd_, uint64_t sndbuf_, uint64_t rcvbuf_)
 {
-    assert (s == retired_fd);
+    zmq_assert (s == retired_fd);
     s = fd_;
 
     if (sndbuf_) {
@@ -239,4 +239,3 @@ int zmq::tcp_socket_t::read (void *data, int size)
 }
 
 #endif
-
