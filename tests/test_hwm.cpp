@@ -21,13 +21,13 @@
 #include "testutil.hpp"
 #include "../src/stdint.hpp"
 
-using namespace std;
 using namespace zmqtestutil;
 
 int main (int argc, char *argv [])
 {
     uint64_t hwm = 5;
     int linger = 0;
+    bool status;
 
     zmq::context_t context (1);
     zmq::socket_t s1 (context, ZMQ_PULL);
@@ -44,25 +44,25 @@ int main (int argc, char *argv [])
         zmq::message_t msg (sizeof ("test") - 1);
         memcpy (msg.data (), "test", sizeof ("test") - 1);
 
-        bool sent = s2.send (msg, ZMQ_NOBLOCK);
+        status = s2.send (msg, ZMQ_NOBLOCK);
 
-        // Anything below HWM should be sent
+        // Anything below HWM should be status
         if (i < 5) {
-            assert (sent);
+            assert (status);
         } else {
-            assert (!sent && errno == EAGAIN);
+            assert (!status && errno == EAGAIN);
         }
     }
 
     // There should be now 5 messages pending, consume one
     zmq::message_t msg;
 
-    bool received = s1.recv (&msg, 0);
-    assert (received);
+    status = s1.recv (&msg, 0);
+    assert (status);
 
     // Now it should be possible to send one more
-    bool sent = s2.send (msg, 0);
-    assert (sent);
+    status = s2.send (msg, 0);
+    assert (status);
 
-	return 0;
+    return 0;
 }

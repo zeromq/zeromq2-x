@@ -21,7 +21,6 @@
 #ifndef __ZMQ_TEST_TESTUTIL_HPP_INCLUDED__
 #define __ZMQ_TEST_TESTUTIL_HPP_INCLUDED__
 
-#include <assert.h>
 #include <iostream>
 #include <string>
 #include <utility>
@@ -30,9 +29,6 @@
 
 namespace zmqtestutil
 {
-
-    using namespace std ;
-
     typedef std::pair <zmq::socket_t*, zmq::socket_t*> socket_pair;
 
     //  Create a pair of sockets connected to each other.
@@ -68,7 +64,7 @@ namespace zmqtestutil
         s2.send (pong, 0);
 
         //  Return received data as std::string.
-        return ret ;
+        return ret;
     }
 
     /*  Run basic tests for the given transport.
@@ -81,23 +77,24 @@ namespace zmqtestutil
     {
         zmq::context_t context (1);
 
+        std::string ret;
         zmq::pollitem_t items [2];
         socket_pair p = create_bound_pair (&context, t1_, t2_, transport_);
 
         //  First test simple ping pong.
-        const string expect ("XXX");
+        const std::string expect ("XXX");
 
         {
-            const string returned = zmqtestutil::ping_pong (p, expect);
-            assert (expect == returned);
+            ret = zmqtestutil::ping_pong (p, expect);
+            assert (expect == ret);
 
             //  Adjust socket state so that poll shows only 1 pending message.
-            zmq::message_t mx ;
+            zmq::message_t mx;
             p.first->recv (&mx, 0);
         }
 
         {
-            //  Now poll is used to singal that a message is ready to read.
+            //  Now poll is used to signal that a message is ready to read.
             zmq::message_t m1 (expect.size ());
             memcpy (m1.data (), expect.c_str (), expect.size ());
             items [0].socket = *p.first;
@@ -112,12 +109,15 @@ namespace zmqtestutil
             p.first->send (m1, 0);
 
             int rc = zmq::poll (&items [0], 2, -1);
-            assert (rc == 1);
+
+            // to prevent 'unused variable' warning in NDEBUG mode
+            if (rc != 1) assert (0);
+
             assert ((items [1].revents & ZMQ_POLLIN) != 0);
 
             zmq::message_t m2;
             p.second->recv (&m2, 0);
-            const string ret ((char*) m2.data (), m2.size ());
+            ret.assign ((char*) m2.data (), m2.size ());
             assert (expect == ret);
         }
 
