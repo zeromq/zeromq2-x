@@ -103,7 +103,7 @@ namespace zmq
                 __FILE__, __LINE__);\
             zmq::zmq_abort (#x);\
         }\
-    } while (false) 
+    } while (false)
 
 //  Provides convenient way to check for errno-style errors.
 #define errno_assert(x) \
@@ -146,5 +146,3 @@ namespace zmq
     } while (false)
 
 #endif
-
-
