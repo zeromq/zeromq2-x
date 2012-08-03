@@ -68,7 +68,7 @@ int main (int argc, char *argv [])
     int timeout = 500;
     size_t timeout_size = sizeof timeout;
     rc = zmq_setsockopt(sb, ZMQ_RCVTIMEO, &timeout, timeout_size);
-    assert (rc == 0);    
+    assert (rc == 0);
     void *watch = zmq_stopwatch_start ();
     rc = zmq_recv (sb, &msg, 0);
     assert (rc == -1);
@@ -107,7 +107,7 @@ int main (int argc, char *argv [])
     memcpy (zmq_msg_data (&msg), "12345678ABCDEFGH12345678abcdefgh", 32);
     rc = zmq_send (sc, &msg, 0);
     assert (rc == 0);
-    
+
     rc = zmq_recv (sb, &msg, 0);
     assert (rc == 0);
     assert (32 == zmq_msg_size(&msg));
@@ -120,6 +120,5 @@ int main (int argc, char *argv [])
     rc = zmq_term (ctx);
     assert (rc == 0);
 
-    return 0 ;
+    return 0;
 }
-
