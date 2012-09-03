@@ -172,9 +172,19 @@ namespace zmq
             return zmq_msg_data (this);
         }
 
+        inline const void *cdata () const
+        {
+            return zmq_msg_cdata (this);
+        }
+
         inline size_t size ()
         {
             return zmq_msg_size (this);
+        }
+
+        inline size_t csize () const
+        {
+            return zmq_msg_csize (this);
         }
 
     private:
