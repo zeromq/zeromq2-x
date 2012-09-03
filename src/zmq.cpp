@@ -218,7 +218,31 @@ void *zmq_msg_data (zmq_msg_t *msg_)
     return ((zmq::msg_content_t*) msg_->content)->data;
 }
 
+const void *zmq_msg_cdata (const zmq_msg_t *msg_)
+{
+    zmq_assert ((msg_->flags | ZMQ_MSG_MASK) == 0xff);
+
+    if (msg_->content == (zmq::msg_content_t*) ZMQ_VSM)
+        return msg_->vsm_data;
+    if (msg_->content == (zmq::msg_content_t*) ZMQ_DELIMITER)
+        return NULL;
+
+    return ((zmq::msg_content_t*) msg_->content)->data;
+}
+
 size_t zmq_msg_size (zmq_msg_t *msg_)
+{
+    zmq_assert ((msg_->flags | ZMQ_MSG_MASK) == 0xff);
+
+    if (msg_->content == (zmq::msg_content_t*) ZMQ_VSM)
+        return msg_->vsm_size;
+    if (msg_->content == (zmq::msg_content_t*) ZMQ_DELIMITER)
+        return 0;
+
+    return ((zmq::msg_content_t*) msg_->content)->size;
+}
+
+size_t zmq_msg_csize (const zmq_msg_t *msg_)
 {
     zmq_assert ((msg_->flags | ZMQ_MSG_MASK) == 0xff);
 
