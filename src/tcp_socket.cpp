@@ -197,13 +197,20 @@ int zmq::tcp_socket_t::write (const void *data, int size)
         return 0;
 
     //  Signalise peer failure.
-    if (nbytes == -1
-    && (errno == ECONNRESET
-     || errno == EPIPE
-     || errno == ETIMEDOUT))
+    if (nbytes == -1) {
+        errno_assert (errno != EACCES
+                   && errno != EBADF
+                   && errno != EDESTADDRREQ
+                   && errno != EFAULT
+                   && errno != EINVAL
+                   && errno != EISCONN
+                   && errno != EMSGSIZE
+                   && errno != ENOMEM
+                   && errno != ENOTSOCK
+                   && errno != EOPNOTSUPP);
         return -1;
+    }
 
-    errno_assert (nbytes != -1);
     return (size_t) nbytes;
 }
 
@@ -221,15 +228,14 @@ int zmq::tcp_socket_t::read (void *data, int size)
         return 0;
 
     //  Signal peer failure.
-    if (nbytes == -1
-    && (errno == ECONNRESET
-     || errno == ECONNREFUSED
-     || errno == ETIMEDOUT
-     || errno == EHOSTUNREACH
-     || errno == ENOTCONN))
+    if (nbytes == -1) {
+        errno_assert (errno != EBADF
+                   && errno != EFAULT
+                   && errno != EINVAL
+                   && errno != ENOMEM
+                   && errno != ENOTSOCK);
         return -1;
-
-    errno_assert (nbytes != -1);
+    }
 
     //  Orderly shutdown by the other peer.
     if (nbytes == 0)
