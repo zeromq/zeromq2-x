@@ -167,12 +167,30 @@ void zmq::dist_t::distribute (zmq_msg_t *msg_, int flags_)
         msg_->flags |= ZMQ_MSG_SHARED;
     }
 
+    int write_fail_cnt = 0;
+
     //  Push the message to all destinations.
     for (pipes_t::size_type i = 0; i < active;) {
         if (!write (pipes [i], msg_))
-            content->refcnt.sub (1);
+            write_fail_cnt++;
         else
             i++;
+    }
+
+    //  One or more writes have failed.
+    //  Take this number off the reference counter.
+    if (unlikely (write_fail_cnt > 0)) {
+        //  No one is referencing the message.
+        //  We can release its content now.
+        if (!content->refcnt.sub (write_fail_cnt)) {
+            //  We used "placement new" operator to initialize the reference
+            //  counter so we call its destructor now.
+            content->refcnt.~atomic_counter_t ();
+
+            if (content->ffn)
+                content->ffn (content->data, content->hint);
+            free (content);
+        }
     }
 
     //  Detach the original message from the data buffer.
