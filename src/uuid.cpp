@@ -230,7 +230,7 @@ unsigned char zmq::uuid_t::convert_byte (char *hexa_)
 
 void zmq::uuid_t::create_blob ()
 {
-    char *buf = new char; buf = reinterpret_cast<char*>(string_buf);
+    char *buf = reinterpret_cast<char*>(string_buf);
 
 #ifdef UNICODE // we need to jump twice as far.
 	blob_buf [0] = convert_byte (buf + 0);
