@@ -130,6 +130,8 @@ void zmq::zmq_connecter_t::start_connecting ()
     }
 
     //  Handle any other error condition by eventual reconnect.
+	if (tcp_connecter.get_fd() != retired_fd)
+		tcp_connecter.close ();
     wait = true;
     add_reconnect_timer();
 }
