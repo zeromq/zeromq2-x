@@ -1,2 +1,4 @@
 script: ./autogen.sh && ./configure && make && make check
 language: c
+before_install:
+- sudo apt-get install uuid-dev
